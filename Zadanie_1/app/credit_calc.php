@@ -44,18 +44,21 @@ if (empty( $messages )) { //sprawdzenie czy są parametry
 if (empty ( $messages )) { //jeśli parametry istnieją i są odpowiednimi liczbami
 	
 	//3.1 konwersja parametrów na int
-	$credit = intval($credit);
-	$years = intval($years);
-	$proc = intval($proc); 
+	$credit = intval($credit); // zakładamy że bank nie dopuszcza brania kredytów z groszami, więc wartość którą wpisał użytkownik zostanie zaokrąglona jeśli nie była całkowita
+	$years = floatval($years); // tak samo w przypadku ilości lat zakłądamy że nie jest zezwalane branie kredytu na ułamek roku
+	$proc = intval($proc); // procent wiemy (z widoku) że jest liczbą całkowitą
 	
 	//dodatkowa walidacja danych pod kątem logicznym
 	if($credit <= 0){
 		unset($credit); //usuwamy niepoprawną wartosć
 		$messages [] = 'Kwota kredytu musi być większa od 0.';
 	}
-	if($years <= 0){
+	if($years < 0.5 || $years > 82){ // zakładamy że trzeba mieć min. 18 aby wziąć kredyt, a maksymalny wiek to 100 lat --> 100 - 18 = 82
 		unset($years);
-		$messages [] = 'Ilosć lat musi być większa od 0.';
+		$messages [] = 'Okres kredytowania musi wynosić conajmniej pół roku i być możliwy do zrealizowania w zakresie twojego życia.';
+	}else if(fmod($years,1) > 0.00001 && fmod($years,1)-0.5 > 0.00001){ // sprawdzamy czy lata są w formacie całkowitym lub pół roku z uzględnieniem błędu precyzji zmiennych zmiennoprzecinkowych
+		//unset($years);
+		$messages [] = 'Kredyt można wziąć z dokładnością do pół roku.';
 	}
 	
 	if(empty($messages)){//jeśli walidacja przeszła można przystąpić do obliczeń
@@ -67,4 +70,5 @@ if (empty ( $messages )) { //jeśli parametry istnieją i są odpowiednimi liczb
 }
 
 // 4. Wywołanie widoku z przekazaniem zmiennych
+
 include 'credit_calc_view.php';
