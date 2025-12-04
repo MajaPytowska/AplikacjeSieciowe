@@ -45,7 +45,7 @@ class LoginCtrl{
 				$user = new User($this->form->login, 'admin');
 				// w sesji nie można przechowywać obiektów, więc serializujemy do stringa
 				$_SESSION['user'] = serialize($user);
-				// dodanie roli użytkownika do tablicy ról w sesji
+				// dodaj rolę użytkownikowi (jak wiemy, zapisane też w sesji)
 				addRole($user->role);
 
 			} else if ($this->form->login == "user" && $this->form->password == "user") {
@@ -54,7 +54,7 @@ class LoginCtrl{
 				$user = new User($this->form->login, 'user');
 				// w sesji nie można przechowywać obiektów, więc serializujemy do stringa
 				$_SESSION['user'] = serialize($user);
-				// dodanie roli użytkownika do tablicy ról w sesji
+				// dodaj rolę użytkownikowi (jak wiemy, zapisane też w sesji)
 				addRole($user->role);
 
 			} else {
@@ -65,29 +65,32 @@ class LoginCtrl{
 		return ! getMessages()->isError();
 	}
 	
-	// Funkcja logowania użytkownika
-	public function doLogin(){
+	#region Obsługa akcji
+
+	//Logowanie użytkownika
+	public function action_login(){
 
 		$this->getParams();
 		
 		if ($this->validate()){
-			//zalogowany --> przekierowanie na stronę główną z akcją domyślną
+			//zalogowany => przekieruj na stronę główną, gdzie uruchomiona zostanie domyślna akcja
 			header("Location: ".getConf()->app_url."/");
-			exit;
 		} else {
-			//niezalogowany --> wyświetlenie strony logowania
+			//niezalogowany => wyświetl stronę logowania
 			$this->generateView(); 
 		}
 		
 	}
 	
-	// Funkcja wylogowania użytkownika
-	public function doLogout(){
+	//Wylogowanie użytkownika
+	public function action_logout(){
+		// zakończenie sesji rozpoczętej w init.php
 		session_destroy();
 		$this->generateView();		 
 	}
-	
-	// Funkcja generująca widok
+	#endregion
+
+	//Funkcja generująca widok
 	public function generateView(){
 		set_loginViewParam(true);
 		getSmarty()->assign('page_title','Strona logowania');
