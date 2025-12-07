@@ -1,0 +1,21 @@
+/**Ogólne dodatkowe style dla aplikacji**/
+
+h2 {
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.base-el{
+	border-radius: 5px;
+}
+
+.message-box{
+	margin: 20px; 
+	padding: 10px 10px 10px 30px; 
+	width:350px;
+}
+
+.main-container{
+	margin: 2em auto;
+	width: 90%;
+}
