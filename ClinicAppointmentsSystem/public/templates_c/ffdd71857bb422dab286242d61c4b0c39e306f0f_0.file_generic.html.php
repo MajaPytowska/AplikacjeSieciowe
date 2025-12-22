@@ -1,4 +1,28 @@
-<!DOCTYPE HTML>
+<?php
+/* Smarty version 5.4.5, created on 2025-12-22 21:55:11
+  from 'file:generic.html' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.4.5',
+  'unifunc' => 'content_6949b02f42efe5_28042005',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    'ffdd71857bb422dab286242d61c4b0c39e306f0f' => 
+    array (
+      0 => 'generic.html',
+      1 => 1766007149,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_6949b02f42efe5_28042005 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views\\templates';
+?><!DOCTYPE HTML>
 <!--
 	Spectral by HTML5 UP
 	html5up.net | @ajlkn
@@ -80,13 +104,28 @@
 			</div>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+			<?php echo '<script'; ?>
+ src="assets/js/jquery.min.js"><?php echo '</script'; ?>
+>
+			<?php echo '<script'; ?>
+ src="assets/js/jquery.scrollex.min.js"><?php echo '</script'; ?>
+>
+			<?php echo '<script'; ?>
+ src="assets/js/jquery.scrolly.min.js"><?php echo '</script'; ?>
+>
+			<?php echo '<script'; ?>
+ src="assets/js/browser.min.js"><?php echo '</script'; ?>
+>
+			<?php echo '<script'; ?>
+ src="assets/js/breakpoints.min.js"><?php echo '</script'; ?>
+>
+			<?php echo '<script'; ?>
+ src="assets/js/util.js"><?php echo '</script'; ?>
+>
+			<?php echo '<script'; ?>
+ src="assets/js/main.js"><?php echo '</script'; ?>
+>
 
 	</body>
-</html>
+</html><?php }
+}
