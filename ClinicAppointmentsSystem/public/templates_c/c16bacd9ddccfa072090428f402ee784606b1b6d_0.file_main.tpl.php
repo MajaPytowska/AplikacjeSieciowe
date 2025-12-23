@@ -1,0 +1,151 @@
+<?php
+/* Smarty version 5.4.5, created on 2025-12-23 23:44:02
+  from 'file:main.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.4.5',
+  'unifunc' => 'content_694b1b3297abf8_34461409',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    'c16bacd9ddccfa072090428f402ee784606b1b6d' => 
+    array (
+      0 => 'main.tpl',
+      1 => 1766529840,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_694b1b3297abf8_34461409 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views\\templates';
+$_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
+?>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title><?php echo (($tmp = $_smarty_tpl->getValue('page_title') ?? null)===null||$tmp==='' ? "Tytuł" ?? null : $tmp);?>
+</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">Przychodnia</a></h1>
+						<nav id="nav">
+							<ul>
+								<li class="special">
+									<a href="#menu" class="menuToggle"><span>Menu</span></a>
+									<div id="menu">
+										<ul>
+											<li><a href="index.html">Strona główna</a></li>
+											<?php if (\core\RoleUtils::inRole("admin")) {?>
+												<li><a href="">Recepcjoniści</a></li>
+												<li><a href="">Pacjenci</a></li>
+											<?php } elseif (\core\RoleUtils::inRole("receptionist")) {?>
+												<li><a href="">Harmonogram</a></li>
+												<li><a href="">Pacjenci</a></li>
+												<li><a href="">Lekarze</a></li>
+												<li><a href="">Predefiniowane przyczyny wizyt</a></li>
+											<?php } elseif (\core\RoleUtils::inRole('patient')) {?>
+												<li><a href="">Moje konto</a></li>
+												<li><a href="">Moje wizyty</a></li>
+												<li><a href="">Umów wizytę</a></li>
+											<?php }?>
+
+											<?php if (\core\RoleUtils::inAnyRole()) {?>
+												<li><a href="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>"logout"), $_smarty_tpl);?>
+">Wyloguj</a></li>
+											<?php } else { ?>
+												<li><a href="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>"login"), $_smarty_tpl);?>
+">Zaloguj</a></li>
+												<li><a href="">Nasi Lekarze</a></li>
+											<?php }?>
+
+											<li><a href="elements.html">Elements</a></li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Main -->
+					<article id="main">
+						<?php if ($_smarty_tpl->getValue('page_header')) {?>
+							<header>
+								<h2><?php echo $_smarty_tpl->getValue('page_header');?>
+</h2>
+								<p><?php echo $_smarty_tpl->getValue('page_description');?>
+</p>
+							</header>
+						<?php }?>
+						<section class="wrapper style5">
+							<div class="inner">
+								<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_431225049694b1b32974a51_63375007', "content");
+?>
+
+							</div>
+						</section>
+					</article>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<ul class="icons">
+							<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+							<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+							<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+							<li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+						</ul>
+						<ul class="copyright">
+							<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+						</ul>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<?php echo '<script'; ?>
+ src="assets/js/jquery.min.js"><?php echo '</script'; ?>
+>
+			<?php echo '<script'; ?>
+ src="assets/js/jquery.scrollex.min.js"><?php echo '</script'; ?>
+>
+			<?php echo '<script'; ?>
+ src="assets/js/jquery.scrolly.min.js"><?php echo '</script'; ?>
+>
+			<?php echo '<script'; ?>
+ src="assets/js/browser.min.js"><?php echo '</script'; ?>
+>
+			<?php echo '<script'; ?>
+ src="assets/js/breakpoints.min.js"><?php echo '</script'; ?>
+>
+			<?php echo '<script'; ?>
+ src="assets/js/util.js"><?php echo '</script'; ?>
+>
+			<?php echo '<script'; ?>
+ src="assets/js/main.js"><?php echo '</script'; ?>
+>
+
+	</body>
+</html><?php }
+/* {block "content"} */
+class Block_431225049694b1b32974a51_63375007 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views\\templates';
+}
+}
+/* {/block "content"} */
+}
