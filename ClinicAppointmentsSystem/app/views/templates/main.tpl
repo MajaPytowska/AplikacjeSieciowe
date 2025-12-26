@@ -4,8 +4,8 @@
 		<title>{$page_title|default:"Tytuł"}</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<link rel="stylesheet" href="{asset_url path="assets/css/main.css"}" />
+		<noscript><link rel="stylesheet" href="{asset_url path="assets/css/noscript.css"}" /></noscript>
 	</head>
 	<body class="is-preload">
 		<!-- Page Wrapper -->
@@ -39,7 +39,7 @@
 												<li><a href="{url action="logout"}">Wyloguj</a></li>
 											{else}
 												<li><a href="{url action="login"}">Zaloguj</a></li>
-												<li><a href="">Nasi Lekarze</a></li>
+												<li><a href="{url action="showDoctorsGrid"}">Nasi Lekarze</a></li>
 											{/if}
 
 											<li><a href="elements.html">Elements</a></li>
@@ -82,13 +82,13 @@
 			</div>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+			<script src="{asset_url path="assets/js/jquery.min.js"}"></script>
+			<script src="{asset_url path="assets/js/jquery.scrollex.min.js"}"></script>
+			<script src="{asset_url path="assets/js/jquery.scrolly.min.js"}"></script>
+			<script src="{asset_url path="assets/js/browser.min.js"}"></script>
+			<script src="{asset_url path="assets/js/breakpoints.min.js"}"></script>
+			<script src="{asset_url path="assets/js/util.js"}"></script>
+			<script src="{asset_url path="assets/js/main.js"}"></script>
 
 	</body>
 </html>

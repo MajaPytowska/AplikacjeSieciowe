@@ -12,3 +12,6 @@ Utils::addRoute('logout', 'LoginCtrl', ['patient', 'receptionist', 'admin']);
 
 Utils::addRoute('showRegistrationForm', 'RegistrationCtrl');
 Utils::addRoute('register', 'RegistrationCtrl');
+
+Utils::addRoute('showDoctorsGrid', 'DoctorsGridCtrl');
+Utils::addRoute('showDoctorDetails', 'DoctorDetailsCtrl');
