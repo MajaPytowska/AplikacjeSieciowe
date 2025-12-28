@@ -1,7 +1,7 @@
 <?php
 
 namespace core;
-
+use DateTime;
 /**
  * Wrapper class for basic utility functions
  *
@@ -78,4 +78,14 @@ class Utils {
         return App::getConf()->action_root . self::_url_maker_noclean($action, $params);
     }
 
+    public static function toDateTime($datetime_str) {
+       $format = 'd.m.y i:H';
+       $dateTime = DateTime::createFromFormat($format, $datetime_str);
+       return $dateTime;
+    }
+
+    public static function DateTimeToString($datetime) {
+       $format = 'd.m.y i:H';
+       return $datetime->format($format);
+    }
 }
