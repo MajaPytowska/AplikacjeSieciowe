@@ -1,8 +1,9 @@
 <?php
 namespace app\forms;
 use app\transfer\User;
+use core\Utils;
 
-class AddAppointmentForm {
+class AppointmentForm {
 	public $patientId;
 	public $doctorId;
 	public $reservationDatetime;
@@ -21,9 +22,11 @@ class AddAppointmentForm {
 		$this->patientId = $appointment_tb['patientId'];
 		$this->doctorId = $appointment_tb['doctorId'];
 		$this->reservationDatetime = $appointment_tb['reservationDatetime'];
-		$this->date = $appointment_tb['date'];
-		$this->startTime = $appointment_tb['startTime'];
-		$this->endTime = $appointment_tb['endTime'];
+		$startDateTime = Utils::DB_toDateTime($appointment_tb['startDateTime']);
+		$endDateTime = Utils::DB_toDateTime($appointment_tb['endDateTime']);
+		$this->date= $startDateTime->format('d/m/Y');
+		$this->startTime = $startDateTime->format('H:i');
+		$this->endTime = $endDateTime->format('H:i');
 		$this->officeId = $appointment_tb['officeId'];
 		$this->visitReasonId = $appointment_tb['visitReasonId'];
 		$this->customVisitReason = $appointment_tb['customVisitReason'];

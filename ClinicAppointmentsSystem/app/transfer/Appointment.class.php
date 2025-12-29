@@ -10,9 +10,10 @@ class Appointment{
 	public $doctor;
 	public $officeName;
 	public $isAvailable;
+	public $date;
 	public $selfReserved;
-	public $startDatetime;
-	public $endDatetime;
+	public $startTime;
+	public $endTime;
 	
 	public function __construct($appointment_tb, $doctor=null){
 		if(!$appointment_tb) return;
@@ -23,7 +24,10 @@ class Appointment{
 		$this->officeName = $appointment_tb['officeName'];
 		$this->isAvailable = $appointment_tb['isavailable'];
 		$this->selfReserved = $appointment_tb['selfReserved'];
-		$this->startDatetime = Utils::toDateTime($appointment_tb['startDatetime']);
-		$this->endDatetime = Utils::toDateTime($appointment_tb['endDatetime']);
+		$startDatetime = Utils::DB_toDateTime($appointment_tb['startDatetime']);
+		$endDatetime = Utils::DB_toDateTime($appointment_tb['endDatetime']);
+		$this->date = $startDatetime->format('d/m/Y');
+		$this->startTime = $startDatetime->format('H:i');
+		$this->endTime = $endDatetime->format('H:i');
 	}	
 }

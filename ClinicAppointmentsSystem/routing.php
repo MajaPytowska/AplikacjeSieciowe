@@ -15,3 +15,7 @@ Utils::addRoute('register', 'RegistrationCtrl');
 
 Utils::addRoute('showDoctorsGrid', 'DoctorsGridCtrl');
 Utils::addRoute('showDoctorDetails', 'DoctorDetailsCtrl');
+
+Utils::addRoute('showSchedule', 'ScheduleCtrl', ['receptionist']);
+Utils::addRoute('showNewAppointmentForm', 'EditAppointmentCtrl', ['receptionist']);
+Utils::addRoute('saveAppointment', 'EditAppointmentCtrl', ['receptionist']);

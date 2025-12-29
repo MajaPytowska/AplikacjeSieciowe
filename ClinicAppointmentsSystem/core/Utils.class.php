@@ -78,14 +78,38 @@ class Utils {
         return App::getConf()->action_root . self::_url_maker_noclean($action, $params);
     }
 
-    public static function toDateTime($datetime_str) {
-       $format = 'd.m.y i:H';
+    public static function DB_toDateTime($datetime_str) {
+       $format = 'Y-m-d H:i:s';
        $dateTime = DateTime::createFromFormat($format, $datetime_str);
        return $dateTime;
     }
 
-    public static function DateTimeToString($datetime) {
-       $format = 'd.m.y i:H';
+    public static function DB_DateTimeToString($datetime) {
+       $format = 'Y-m-d H:i:s';
        return $datetime->format($format);
     }
+
+    public static function isEmptyString($str) {
+        return (!isset($str) || trim($str) === '');
+    }
+
+    public static function intValidateFromRequest(&$validator, $param, $req_message, $invalid_message=null, $min = null, $max = null) {
+        $rules = [
+            'int' => true,
+            'required_message' => $req_message,
+            'validator_message' => $invalid_message,
+            'numeric' => true,
+            'required' => true,
+            'default' => null
+        ];
+
+        if ($min !== null) {
+            $rules['min'] = $min;
+        }
+        if ($max !== null) {
+            $rules['max'] = $max;
+        }
+        return $validator->validateFromRequest($param, $rules);
+    }
+
 }

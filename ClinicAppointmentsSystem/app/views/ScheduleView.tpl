@@ -1,30 +1,31 @@
 {extends file="main.tpl"}
 
 {block name="content"}
+
+{include file="messages.tpl"}
 <div>
     <div class="col-6">
-        <select id="doctorSelect" onchange="{url action='loadSchedule' value=this.value}">
+        <a class="button primary small" href="{url action='showNewAppointmentForm'}">Dodaj wizytę</a>
+    </div>
+    <div class="col-6">
+        <select id="doctorSelect">
             <option value="">Wybierz lekarza</option>
             {foreach from=$doctors item=doctor}
                 <option value="{$doctor->id}">{$doctor->name} {$doctor->surname}</option>
             {/foreach}
+        </select>
     </div>
-    <div class="col-6">
-        <a class="button primary fit small" href="{url action='addAppointment'}">Dodaj wizytę</a>
-    </div>
-    </div>
+</div>
 <div>
     <table id="scheduleTable">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Office</th>
-                <th>Doctor</th>
-                <th>Availability</th>
-                <th>Patient</th>
-                <th>Visit reason</th>
-                <th>Actions</th>
+                <th>Data</th>
+                <th>Godzina</th>
+                <th>Gabinet</th>
+                <th>Lekarz</th>
+                <th>Wolny</th>
+                <th>Akcje</th>
             </tr>
         </thead>
         <tbody>
@@ -36,16 +37,14 @@
             {foreach from=$appointments item=appointment}
                 <tr>
                     <td>{$appointment->date}</td>
-                    <td>{$appointment->time}</td>
-                    <td>{$appointment->office}</td>
-                    <td>{$appointment->doctorName}</td>
-                    <td>{$appointment->available}</td>
-                    <td>{$appointment->patientName}</td>
-                    <td>{$appointment->visitReason}</td>
+                    <td>{$appointment->startTime}-{$appointment->endTime}</td>
+                    <td>{$appointment->officeName}</td>
+                    <td>{$appointment->doctor->name} {$appointment->doctor->surname}</td>
+                    <td>{$appointment->isAvailable ? "TAK" : "NIE"}</td>
                     <td>
                         <a class="button primary fit small" href="{url action='deleteAppointment' param1=$appointment->id}">Usuń</a>
                         <a class="button primary fit small" href="{url action='editAppointment' param1=$appointment->id}">Edytuj</a>
-                        {if $appointment->available == true}
+                        {if $appointment->isAvailable == true}
                             <a class="button primary fit small" href="{url action='bookAppointment' param1=$appointment->id}">Umów</a>
                         {else}
                             <a class="button primary fit small" href="{url action='cancelAppointment' param1=$appointment->id}">Anuluj</a>
@@ -55,5 +54,6 @@
             {/foreach}
             {/if}
         </tbody>
+    </table>
 </div>
 {/block}

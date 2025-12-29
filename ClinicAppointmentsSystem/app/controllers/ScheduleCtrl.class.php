@@ -34,7 +34,7 @@ class ScheduleCtrl{
 			'system_user.nameuser(name)',
 			'system_user.surname',
 			'system_user.pesel',
-			'appointment.apreservationdatetime(reservationDatetime)',
+			'appointment.reservationdatetime(reservationDatetime)',
 			'selfReserved' => App::getDB()->raw('CASE WHEN appointment.reservedbyiduser = appointment.patientiduser THEN 1 ELSE 0 END'),
 			'appointment.startdatetime(startDatetime)',
 			'appointment.enddatetime(endDatetime)', 
@@ -74,6 +74,7 @@ class ScheduleCtrl{
 		$this->getParams();
 		$this->loadDoctors();
 		$this->loadAppointments();
+		Utils::addInfoMessage(serialize($this->appointments));
 		$this->generateView();
 	}
 	#endregion

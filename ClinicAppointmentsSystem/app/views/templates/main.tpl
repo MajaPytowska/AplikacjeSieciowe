@@ -25,7 +25,7 @@
 												<li><a href="">Recepcjoniści</a></li>
 												<li><a href="">Pacjenci</a></li>
 											{elseif \core\RoleUtils::inRole("receptionist")}
-												<li><a href="">Harmonogram</a></li>
+												<li><a href="{url action='showSchedule'}">Harmonogram</a></li>
 												<li><a href="">Pacjenci</a></li>
 												<li><a href="">Lekarze</a></li>
 												<li><a href="">Predefiniowane przyczyny wizyt</a></li>
