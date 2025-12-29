@@ -12,16 +12,24 @@ use core\ParamUtils;
 use app\forms\LoginForm;
 use app\transfer\User;
 use core\RoleUtils;
+use core\Validator;
 
 class ScheduleCtrl{
 	private $appointments;
+	private $selectedAppointment;
 	private $doctors;
 	public function __construct(){	
 		$this->appointments = [];
 		$this->doctors = [];
 	}
 
-	private function getParams(){
+	private function getURLParams(){
+		$v = new Validator();
+		$this->selectedAppointment = $v->validateFromCleanURL(1,[
+			'int'=>true,
+			'is_numeric'=>true,
+			'default'=>null
+		]);
 	}
 	
 	private function loadAppointments(){
@@ -71,11 +79,17 @@ class ScheduleCtrl{
 	#region Obsługa akcji
 
 	public function action_showSchedule(){
-		$this->getParams();
 		$this->loadDoctors();
 		$this->loadAppointments();
-		Utils::addInfoMessage(serialize($this->appointments));
 		$this->generateView();
+	}
+
+	public function action_deleteAppointment(){
+		$this->getURLParams();
+		if($this->selectedAppointment){
+			App::getDB()->delete('appointment',['idappointment'=>$this->selectedAppointment]);
+		}
+		App::getRouter()->redirectTo("showSchedule");
 	}
 	#endregion
 

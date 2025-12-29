@@ -19,9 +19,9 @@ class AppointmentForm {
 
 	public function preload($appointment_tb) {
 		if(!$appointment_tb) return;
-		$this->patientId = $appointment_tb['patientId'];
+		//$this->patientId = $appointment_tb['patientId'];
 		$this->doctorId = $appointment_tb['doctorId'];
-		$this->reservationDatetime = $appointment_tb['reservationDatetime'];
+		//$this->reservationDatetime = $appointment_tb['reservationDatetime'];
 		$startDateTime = Utils::DB_toDateTime($appointment_tb['startDateTime']);
 		$endDateTime = Utils::DB_toDateTime($appointment_tb['endDateTime']);
 		$this->date= $startDateTime->format('d/m/Y');

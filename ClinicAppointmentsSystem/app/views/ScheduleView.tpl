@@ -3,21 +3,14 @@
 {block name="content"}
 
 {include file="messages.tpl"}
+
 <div>
     <div class="col-6">
         <a class="button primary small" href="{url action='showNewAppointmentForm'}">Dodaj wizytę</a>
     </div>
-    <div class="col-6">
-        <select id="doctorSelect">
-            <option value="">Wybierz lekarza</option>
-            {foreach from=$doctors item=doctor}
-                <option value="{$doctor->id}">{$doctor->name} {$doctor->surname}</option>
-            {/foreach}
-        </select>
-    </div>
 </div>
-<div>
-    <table id="scheduleTable">
+<div class="table-wrapper">
+    <table id="scheduleTable" class="alt">
         <thead>
             <tr>
                 <th>Data</th>
@@ -25,7 +18,7 @@
                 <th>Gabinet</th>
                 <th>Lekarz</th>
                 <th>Wolny</th>
-                <th>Akcje</th>
+                <th style="width: 10%;">Akcje</th>
             </tr>
         </thead>
         <tbody>
@@ -56,4 +49,5 @@
         </tbody>
     </table>
 </div>
+
 {/block}

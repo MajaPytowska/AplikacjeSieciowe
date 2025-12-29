@@ -11,12 +11,14 @@ class Appointment{
 	public $officeName;
 	public $isAvailable;
 	public $date;
+	public $id;
 	public $selfReserved;
 	public $startTime;
 	public $endTime;
 	
 	public function __construct($appointment_tb, $doctor=null){
 		if(!$appointment_tb) return;
+		$this->id = $appointment_tb['id'];
 		$this->patientName = $appointment_tb['name'];
 		$this->patientSurname = $appointment_tb['surname'];
 		$this->patientPesel = $appointment_tb['pesel'];

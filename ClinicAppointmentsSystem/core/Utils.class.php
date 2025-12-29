@@ -112,4 +112,19 @@ class Utils {
         return $validator->validateFromRequest($param, $rules);
     }
 
+    public static function idValidateFromCleanURL(&$validator, $paramNumber, $required = false, $req_message = null ){
+        $rules =[
+            'int'=>true,
+			'is_numeric' => true,
+			'default' => null
+        ];
+
+        if($required){
+            $rules['required'] = true;
+            $rules['required_message'] = $req_message;
+        }
+
+        return $validator->validateFromCleanURL($paramNumber, $rules);
+    }
+
 }

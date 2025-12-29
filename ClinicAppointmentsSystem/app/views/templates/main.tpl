@@ -28,7 +28,7 @@
 												<li><a href="{url action='showSchedule'}">Harmonogram</a></li>
 												<li><a href="">Pacjenci</a></li>
 												<li><a href="">Lekarze</a></li>
-												<li><a href="">Predefiniowane przyczyny wizyt</a></li>
+												<li><a href="{url action="showPredefinedVisitReasonsMan"}">Predefiniowane przyczyny wizyt</a></li>
 											{elseif \core\RoleUtils::inRole('patient')}
 												<li><a href="">Moje konto</a></li>
 												<li><a href="">Moje wizyty</a></li>
