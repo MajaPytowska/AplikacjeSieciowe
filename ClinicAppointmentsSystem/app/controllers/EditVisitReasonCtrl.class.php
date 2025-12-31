@@ -56,6 +56,8 @@ class EditVisitReasonCtrl{
 
 	private function process(){ //zwraca true jeśli przetwarzanie się powiodło
 
+		$this->visitReason->name = Utils::capitalize($this->visitReason->name);
+
 		if($this->visitReasonId)
 		{
 			App::getDB()->update('visitreason', [

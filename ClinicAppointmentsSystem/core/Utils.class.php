@@ -127,4 +127,7 @@ class Utils {
         return $validator->validateFromCleanURL($paramNumber, $rules);
     }
 
+    public static function capitalize($str) : string{
+        return ucfirst(strtolower($str));
+    }
 }

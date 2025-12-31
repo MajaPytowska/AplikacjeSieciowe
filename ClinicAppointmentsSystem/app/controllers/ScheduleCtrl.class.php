@@ -10,6 +10,8 @@ use app\transfer\Doctor;
 use app\transfer\Appointment;
 use core\ParamUtils;
 use app\forms\LoginForm;
+use app\forms\ReservationForm;
+use app\services\DatabaseUtils;
 use app\transfer\User;
 use core\RoleUtils;
 use core\Validator;
@@ -35,14 +37,15 @@ class ScheduleCtrl{
 	private function loadAppointments(){
 		$appointments = App::getDB()->select('appointment', [
 			'[>]system_user' => ['patientiduser' => 'iduser'],
-			'[>]office' => ['appointment.idoffice' => 'idoffice']
+			'[>]office' => ['appointment.idoffice' => 'idoffice'],
+			'[>]visitreason' => ['idvisitreason'=>'idvisitreason']
 		], [
 			'appointment.idappointment(id)',
-			'system_user.login',
 			'system_user.nameuser(name)',
 			'system_user.surname',
 			'system_user.pesel',
 			'appointment.reservationdatetime(reservationDatetime)',
+			'visitReason' => App::getDB()->raw('CASE WHEN appointment.idvisitreason IS NOT NULL THEN appointment.idvisitreason ELSE appointment.customvisitreason END'),
 			'selfReserved' => App::getDB()->raw('CASE WHEN appointment.reservedbyiduser = appointment.patientiduser THEN 1 ELSE 0 END'),
 			'appointment.startdatetime(startDatetime)',
 			'appointment.enddatetime(endDatetime)', 
@@ -57,7 +60,7 @@ class ScheduleCtrl{
 			$this->appointments[] = new Appointment($appointment, $this->doctors[$appointment['doctorId']]);
 		}
 	}
-	private function loadDoctors(){
+	private function loadDoctors(){ //przygotowanie pod filtrację
 		$db_doctors = App::getDB()->select('system_user', [
     		'[><]role_user' => ['iduser' => 'iduser'],
    			'[><]role' => ['role_user.idrole' => 'idrole']
@@ -90,6 +93,24 @@ class ScheduleCtrl{
 			App::getDB()->delete('appointment',['idappointment'=>$this->selectedAppointment]);
 		}
 		App::getRouter()->redirectTo("showSchedule");
+	}
+
+	public function action_bookAppointment(){
+		$this->getURLParams();
+		if($this->selectedAppointment){
+			$reservation = new ReservationForm();
+			$reservation->appointmentId = $this->selectedAppointment;
+			SessionUtils::storeObject('reservation',$reservation);
+		}
+		App::getRouter()->redirectTo("showReservationForm"); //usunięcie artefaktów w url
+	}
+
+	public function action_cancelAppointment(){
+		$this->getURLParams();
+		if($this->selectedAppointment){
+			DatabaseUtils::cancellAppointment($this->selectedAppointment);
+		}
+		App::getRouter()->redirectTo("showSchedule");  //usunięcie artefaktów w url
 	}
 	#endregion
 

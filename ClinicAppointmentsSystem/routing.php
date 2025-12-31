@@ -19,6 +19,8 @@ Utils::addRoute('showDoctorDetails', 'DoctorDetailsCtrl');
 
 Utils::addRoute('showSchedule', 'ScheduleCtrl', ['receptionist']);
 Utils::addRoute('deleteAppointment','ScheduleCtrl', ['receptionist']);
+Utils::addRoute('bookAppointment','ScheduleCtrl', ['receptionist', 'patient']);
+Utils::addRoute('cancelAppointment','ScheduleCtrl', ['receptionist', 'patient']);
 
 Utils::addRoute('showNewAppointmentForm', 'EditAppointmentCtrl', ['receptionist']);
 Utils::addRoute('saveAppointment', 'EditAppointmentCtrl', ['receptionist']);
@@ -29,3 +31,6 @@ Utils::addRoute('deleteVisitReason','PredefinedVisitReasonMan', ['receptionist']
 
 Utils::addRoute('showVisitReasonForm','EditVisitReasonCtrl', ['receptionist']);
 Utils::addRoute('saveVisitReason','EditVisitReasonCtrl', ['receptionist']);
+
+Utils::addRoute('saveReservation','ReservationCtrl', ['receptionist', 'patient']);
+Utils::addRoute('showReservationForm','ReservationCtrl', ['receptionist', 'patient']);

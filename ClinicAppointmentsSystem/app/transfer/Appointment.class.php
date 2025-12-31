@@ -15,6 +15,7 @@ class Appointment{
 	public $selfReserved;
 	public $startTime;
 	public $endTime;
+	public $visitReason;
 	
 	public function __construct($appointment_tb, $doctor=null){
 		if(!$appointment_tb) return;
@@ -23,6 +24,7 @@ class Appointment{
 		$this->patientSurname = $appointment_tb['surname'];
 		$this->patientPesel = $appointment_tb['pesel'];
 		$this->doctor = $doctor;
+		$this->visitReason = $appointment_tb['visitReason'];
 		$this->officeName = $appointment_tb['officeName'];
 		$this->isAvailable = $appointment_tb['isavailable'];
 		$this->selfReserved = $appointment_tb['selfReserved'];
