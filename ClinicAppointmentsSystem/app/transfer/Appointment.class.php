@@ -20,14 +20,14 @@ class Appointment{
 	public function __construct($appointment_tb, $doctor=null){
 		if(!$appointment_tb) return;
 		$this->id = $appointment_tb['id'];
-		$this->patientName = $appointment_tb['name'];
-		$this->patientSurname = $appointment_tb['surname'];
-		$this->patientPesel = $appointment_tb['pesel'];
+		$this->patientName = $appointment_tb['name'] ?? null;
+		$this->patientSurname = $appointment_tb['surname'] ?? null;
+		$this->patientPesel = $appointment_tb['pesel'] ?? null;
 		$this->doctor = $doctor;
-		$this->visitReason = $appointment_tb['visitReason'];
-		$this->officeName = $appointment_tb['officeName'];
-		$this->isAvailable = $appointment_tb['isavailable'];
-		$this->selfReserved = $appointment_tb['selfReserved'];
+		$this->visitReason = $appointment_tb['visitReason'] ?? null;
+		$this->officeName = $appointment_tb['officeName'] ?? null;
+		$this->isAvailable = $appointment_tb['isavailable'] ?? null;
+		$this->selfReserved = $appointment_tb['selfReserved'] ?? null;
 		$startDatetime = Utils::DB_toDateTime($appointment_tb['startDatetime']);
 		$endDatetime = Utils::DB_toDateTime($appointment_tb['endDatetime']);
 		$this->date = $startDatetime->format('d/m/Y');

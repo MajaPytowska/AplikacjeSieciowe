@@ -26,14 +26,14 @@ class EditAppointmentCtrl{
 	public function __construct(){	
 		$this->appointment = new AppointmentForm();
 	}
-	private function getParams(){
-		$v = new Validator();
 
-		$this->appointmentId = $v->validateFromCleanURL(1,[
-			'int'=>true,
-			'is_numeric' => true,
-			'default' => null
-		]);
+	private function getURLParams(){
+		$v = new Validator();
+		$this->appointmentId = Utils::idValidateFromCleanURL($v, 1);
+	}
+
+	private function getFormParams(){
+		$v = new Validator();
 
 		$this->appointment->doctorId = Utils::intValidateFromRequest($v, 'doctorId', "Wybierz lekarza z listy.");
 		$date = $v->validateFromRequest('date', [
@@ -74,8 +74,8 @@ class EditAppointmentCtrl{
 			return;
 		}
 		$db_appointment = App::getDB()->get('appointment', [
-			'startdatetime(startDatetime)',
-			'enddatetime(endDatetime)', 
+			'startdatetime(startDateTime)',
+			'enddatetime(endDateTime)', 
 			'isavailable',
 			'iddoctor(doctorId)',
 			'idoffice(officeId)',
@@ -101,17 +101,7 @@ class EditAppointmentCtrl{
 			'ORDER' => ['office.nameoffice' => 'ASC']
 		]));
 	}
-	
-	private function loadVisitReasons(){
-		$this->visitReasons = array_map(
-		function($visitReason) { return new VisitReason($visitReason); },
-		App::getDB()->select('visit_reason', [
-			'visit_reason.idvisitreason(visitReasonId)',
-			'visit_reason.namevisitreason(visitReasonName)'
-		], [
-			'ORDER' => ['visit_reason.namevisitreason' => 'ASC']
-		]));
-	}
+
 
 	private function loadDoctors(){
 		$db_doctors = App::getDB()->select('system_user', [
@@ -188,7 +178,7 @@ class EditAppointmentCtrl{
 	}
 
 	public function action_editAppointment(){
-		$this->getParams();
+		$this->getURLParams();
 		$this->loadAppointment();
 		$this->loadDoctors();
 		$this->loadOffices();
@@ -196,7 +186,7 @@ class EditAppointmentCtrl{
 	}
 
 	public function action_saveAppointment(){
-		$this->getParams();
+		$this->getFormParams();
 		if($this->validate()){
 			$this->process();
 		}	

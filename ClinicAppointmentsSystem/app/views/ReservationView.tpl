@@ -12,7 +12,7 @@
             </select>
         </div>
     {/if}
-        <div class="col-12" id="visitReasonIdDiv">
+        <div class="col-12" id="visitReasonIdDiv" style="display: {if $reservation->customVisitReasonEnable}none{else}block{/if};">
             <select name="visitReasonId" id="visitReasonId">
                 <option style="display: none;" value="">Wybierz przyczynę wizyty</option>
                 {foreach from=$visitReasons item=visitReason}
@@ -25,10 +25,10 @@
 			<label for="customVisitReasonEnable">Inna przyczyna wizyty</label>
         </div>	
         <div class="col-12" id="customVisitReasonDiv" style="display: {if $reservation->customVisitReasonEnable}block{else}none{/if};">
-    		<textarea name="customVisitReason" id="customVisitReason" placeholder="Opisz przyczynę wizyty" rows="6" maxlength="100"></textarea>
+    		<textarea name="customVisitReason" id="customVisitReason" placeholder="Opisz przyczynę wizyty" rows="6" maxlength="100">{$reservation->customVisitReason}</textarea>
     	</div>    
         <div class="col-12">
-            <input type="submit" value="Umów" class="primary" />
+            <input type="submit" value="Umów" class="primary"/>
         </div>
     </div>
 </form>

@@ -4,6 +4,7 @@ namespace app\services;
 use app\transfer\User;
 use app\transfer\VisitReason;
 use core\App;
+use app\transfer\Appointment;
 
 class DatabaseUtils{
     public static function getVisitReasons(): array{
@@ -44,5 +45,20 @@ class DatabaseUtils{
 		], [
 			'idappointment' => $id
 		]);
+    }
+
+    public static function getDoctorsAvailableAppointments($doctorId){
+        return array_map(
+			function ($appointment) { return new Appointment($appointment);},
+			App::getDB()->select('appointment',
+			[
+				'idappointment(id)',
+				'startdatetime(startDatetime)',
+				'enddatetime(endDatetime)'
+			], [
+				'isavailable' => (int)true,
+				'iddoctor' => $doctorId,
+				'ORDER' => ['startdatetime' => 'ASC']
+			]));
     }
 }

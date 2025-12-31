@@ -34,3 +34,6 @@ Utils::addRoute('saveVisitReason','EditVisitReasonCtrl', ['receptionist']);
 
 Utils::addRoute('saveReservation','ReservationCtrl', ['receptionist', 'patient']);
 Utils::addRoute('showReservationForm','ReservationCtrl', ['receptionist', 'patient']);
+
+Utils::addRoute('showSelectAppointment','SelectAppointmentCtrl', ['receptionist', 'patient']);
+Utils::addRoute('selectAppointment','SelectAppointmentCtrl', ['receptionist', 'patient']);

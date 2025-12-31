@@ -8,9 +8,9 @@
         <div class="col-6 col-12-medium">
             <h2>Dr {$doctor->name} {$doctor->surname}</h2>
             <p>Specjalizacje: {$doctor->specializations}</p>
-            <a href="#" class="button primary fit">Umów wizytę</a>
+            <a href="{url action="showSelectAppointment" param1=$doctor->id}" class="button primary fit">Umów wizytę</a>
         </div>
         <p>Opis: {$doctor->description}</p>
     </div>
 </div>
-{/block}
+{/block} 

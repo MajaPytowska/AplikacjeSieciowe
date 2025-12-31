@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.5, created on 2025-12-25 22:30:53
+/* Smarty version 5.4.5, created on 2025-12-31 19:28:21
   from 'file:DoctorDetailsView.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_694dad0de51984_72829285',
+  'unifunc' => 'content_69556b45c17681_55099275',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '8892c9f6aab53160c9db809b1bdc0cd2aa03ebc8' => 
     array (
       0 => 'DoctorDetailsView.tpl',
-      1 => 1766698249,
+      1 => 1767205480,
       2 => 'file',
     ),
   ),
@@ -20,17 +20,18 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_694dad0de51984_72829285 (\Smarty\Template $_smarty_tpl) {
+function content_69556b45c17681_55099275 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1620600489694dad0de358f5_83181680', "content");
-$_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "main.tpl", $_smarty_current_dir);
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_163603807169556b45c073c5_71992819', "content");
+?>
+ <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "main.tpl", $_smarty_current_dir);
 }
 /* {block "content"} */
-class Block_1620600489694dad0de358f5_83181680 extends \Smarty\Runtime\Block
+class Block_163603807169556b45c073c5_71992819 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views';
@@ -50,7 +51,8 @@ $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\vi
 </h2>
             <p>Specjalizacje: <?php echo $_smarty_tpl->getValue('doctor')->specializations;?>
 </p>
-            <a href="#" class="button primary fit">Umów wizytę</a>
+            <a href="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>"showSelectAppointment",'param1'=>$_smarty_tpl->getValue('doctor')->id), $_smarty_tpl);?>
+" class="button primary fit">Umów wizytę</a>
         </div>
         <p>Opis: <?php echo $_smarty_tpl->getValue('doctor')->description;?>
 </p>

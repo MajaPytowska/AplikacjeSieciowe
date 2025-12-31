@@ -3,17 +3,11 @@
 namespace app\controllers;
 
 use core\App;
-use core\Message;
 use core\SessionUtils;
-use core\Utils;
 use app\transfer\Doctor;
 use app\transfer\Appointment;
-use core\ParamUtils;
-use app\forms\LoginForm;
 use app\forms\ReservationForm;
 use app\services\DatabaseUtils;
-use app\transfer\User;
-use core\RoleUtils;
 use core\Validator;
 
 class ScheduleCtrl{
@@ -45,7 +39,7 @@ class ScheduleCtrl{
 			'system_user.surname',
 			'system_user.pesel',
 			'appointment.reservationdatetime(reservationDatetime)',
-			'visitReason' => App::getDB()->raw('CASE WHEN appointment.idvisitreason IS NOT NULL THEN appointment.idvisitreason ELSE appointment.customvisitreason END'),
+			'visitReason' => App::getDB()->raw('CASE WHEN appointment.idvisitreason IS NOT NULL THEN visitreason.namevisitreason ELSE appointment.customvisitreason END'),
 			'selfReserved' => App::getDB()->raw('CASE WHEN appointment.reservedbyiduser = appointment.patientiduser THEN 1 ELSE 0 END'),
 			'appointment.startdatetime(startDatetime)',
 			'appointment.enddatetime(endDatetime)', 
@@ -92,7 +86,7 @@ class ScheduleCtrl{
 		if($this->selectedAppointment){
 			App::getDB()->delete('appointment',['idappointment'=>$this->selectedAppointment]);
 		}
-		App::getRouter()->redirectTo("showSchedule");
+		App::getRouter()->redirectTo("showSchedule");//usunięcie artefaktów w url
 	}
 
 	public function action_bookAppointment(){
@@ -102,7 +96,7 @@ class ScheduleCtrl{
 			$reservation->appointmentId = $this->selectedAppointment;
 			SessionUtils::storeObject('reservation',$reservation);
 		}
-		App::getRouter()->redirectTo("showReservationForm"); //usunięcie artefaktów w url
+		App::getRouter()->redirectTo("showReservationForm"); 
 	}
 
 	public function action_cancelAppointment(){

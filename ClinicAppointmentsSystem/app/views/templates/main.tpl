@@ -32,7 +32,7 @@
 											{elseif \core\RoleUtils::inRole('patient')}
 												<li><a href="">Moje konto</a></li>
 												<li><a href="">Moje wizyty</a></li>
-												<li><a href="">Umów wizytę</a></li>
+												<li><a href="{url action="showDoctorsGrid"}">Umów wizytę</a></li>
 											{/if}
 
 											{if \core\RoleUtils::inAnyRole()}

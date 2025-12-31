@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.5, created on 2025-12-29 16:48:22
+/* Smarty version 5.4.5, created on 2025-12-31 19:28:11
   from 'file:main.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_6952a2c61de434_37830187',
+  'unifunc' => 'content_69556b3b921d09_49979055',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c16bacd9ddccfa072090428f402ee784606b1b6d' => 
     array (
       0 => 'main.tpl',
-      1 => 1767023299,
+      1 => 1767205689,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6952a2c61de434_37830187 (\Smarty\Template $_smarty_tpl) {
+function content_69556b3b921d09_49979055 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views\\templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ?>
@@ -63,7 +63,8 @@ $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 											<?php } elseif (\core\RoleUtils::inRole('patient')) {?>
 												<li><a href="">Moje konto</a></li>
 												<li><a href="">Moje wizyty</a></li>
-												<li><a href="">Umów wizytę</a></li>
+												<li><a href="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>"showDoctorsGrid"), $_smarty_tpl);?>
+">Umów wizytę</a></li>
 											<?php }?>
 
 											<?php if (\core\RoleUtils::inAnyRole()) {?>
@@ -97,7 +98,7 @@ $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 						<section class="wrapper style5">
 							<div class="inner">
 								<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_6277454536952a2c61d4929_88853925', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_49374092569556b3b913ed8_75716643', "content");
 ?>
 
 							</div>
@@ -153,7 +154,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_6277454536952
 	</body>
 </html><?php }
 /* {block "content"} */
-class Block_6277454536952a2c61d4929_88853925 extends \Smarty\Runtime\Block
+class Block_49374092569556b3b913ed8_75716643 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views\\templates';

@@ -33,7 +33,14 @@
                     <td>{$appointment->startTime}-{$appointment->endTime}</td>
                     <td>{$appointment->officeName}</td>
                     <td>{$appointment->doctor->name} {$appointment->doctor->surname}</td>
-                    <td>{$appointment->isAvailable ? "TAK" : "NIE"}</td>
+                    <td>{$appointment->isAvailable ? "TAK" : "NIE"}
+                        {if !$appointment->isAvailable}
+                        <br/>
+                        {$appointment->patientName} {$appointment->patientSurname} ({$appointment->patientPesel})
+                        <br/>
+                        {$appointment->visitReason}
+                        {/if}
+                    </td>
                     <td>
                         <a class="button primary fit small" href="{url action='deleteAppointment' param1=$appointment->id}">Usuń</a>
                         <a class="button primary fit small" href="{url action='editAppointment' param1=$appointment->id}">Edytuj</a>

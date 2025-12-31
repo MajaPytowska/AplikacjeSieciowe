@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.5, created on 2025-12-30 23:44:14
+/* Smarty version 5.4.5, created on 2025-12-31 19:47:02
   from 'file:ReservationView.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_695455be29d4a9_51935564',
+  'unifunc' => 'content_69556fa699ea91_40864601',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '742b08bf016e4d56392d4a6df6ebe39f7762df45' => 
     array (
       0 => 'ReservationView.tpl',
-      1 => 1767134527,
+      1 => 1767206819,
       2 => 'file',
     ),
   ),
@@ -20,17 +20,17 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_695455be29d4a9_51935564 (\Smarty\Template $_smarty_tpl) {
+function content_69556fa699ea91_40864601 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1055558615695455be2727b5_08211779', "form_content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_207213424269556fa69774c0_83162963', "form_content");
 $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "form_base.tpl", $_smarty_current_dir);
 }
 /* {block "form_content"} */
-class Block_1055558615695455be2727b5_08211779 extends \Smarty\Runtime\Block
+class Block_207213424269556fa69774c0_83162963 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views';
@@ -60,7 +60,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             </select>
         </div>
     <?php }?>
-        <div class="col-12" id="visitReasonIdDiv">
+        <div class="col-12" id="visitReasonIdDiv" style="display: <?php if ($_smarty_tpl->getValue('reservation')->customVisitReasonEnable) {?>none<?php } else { ?>block<?php }?>;">
             <select name="visitReasonId" id="visitReasonId">
                 <option style="display: none;" value="">Wybierz przyczynę wizyty</option>
                 <?php
@@ -82,7 +82,8 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 			<label for="customVisitReasonEnable">Inna przyczyna wizyty</label>
         </div>	
         <div class="col-12" id="customVisitReasonDiv" style="display: <?php if ($_smarty_tpl->getValue('reservation')->customVisitReasonEnable) {?>block<?php } else { ?>none<?php }?>;">
-    		<textarea name="customVisitReason" id="customVisitReason" placeholder="Opisz przyczynę wizyty" rows="6" maxlength="100"></textarea>
+    		<textarea name="customVisitReason" id="customVisitReason" placeholder="Opisz przyczynę wizyty" rows="6" maxlength="100"><?php echo $_smarty_tpl->getValue('reservation')->customVisitReason;?>
+</textarea>
     	</div>    
         <div class="col-12">
             <input type="submit" value="Umów" class="primary" />
