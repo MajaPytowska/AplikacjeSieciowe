@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use core\App;
 use core\SessionUtils;
+use core\RoleUtils;
 use app\transfer\Doctor;
 use app\transfer\Appointment;
 use app\forms\ReservationForm;
@@ -14,9 +15,11 @@ class ScheduleCtrl{
 	private $appointments;
 	private $selectedAppointment;
 	private $doctors;
+	private $isPatient;
 	public function __construct(){	
 		$this->appointments = [];
 		$this->doctors = [];
+		$this->isPatient = false;
 	}
 
 	private function getURLParams(){
@@ -29,6 +32,20 @@ class ScheduleCtrl{
 	}
 	
 	private function loadAppointments(){
+		$this->isPatient = RoleUtils::inRole('patient');
+		$userId = null;
+		if($this->isPatient){
+			$user = SessionUtils::loadObject('user', true);
+			$userId = $user ? $user->id : null;
+		}
+
+		$where = [
+			'ORDER' => ['appointment.startdatetime' => 'ASC', 'office.nameoffice' => 'ASC']
+		];
+		if($this->isPatient && $userId !== null){
+			$where['appointment.patientiduser'] = $userId;
+		}
+
 		$appointments = App::getDB()->select('appointment', [
 			'[>]system_user' => ['patientiduser' => 'iduser'],
 			'[>]office' => ['appointment.idoffice' => 'idoffice'],
@@ -47,9 +64,7 @@ class ScheduleCtrl{
 			'appointment.iddoctor(doctorId)',
 			'office.nameoffice(officeName)'
 
-		], [
-			'ORDER' => ['appointment.startdatetime' => 'ASC', 'office.nameoffice' => 'ASC']
-		]);
+		], $where);
 		foreach($appointments as &$appointment){
 			$this->appointments[] = new Appointment($appointment, $this->doctors[$appointment['doctorId']]);
 		}
@@ -112,6 +127,7 @@ class ScheduleCtrl{
 	private function generateView(){
 		App::getSmarty()->assign('appointments', $this->appointments);
 		App::getSmarty()->assign('doctors', $this->doctors);
+		App::getSmarty()->assign('isPatient', $this->isPatient);
 		App::getSmarty()->assign('page_title','Wizyty');
         App::getSmarty()->assign('page_description','Zarządzanie wizytami');
         App::getSmarty()->assign('page_header','Wizyty');

@@ -11,12 +11,12 @@
 		<div class="col-12">
 			{include file="form_base_input.tpl" type="text" name="pesel" id="pesel" value=($form->user_data->pesel??null) placeholder="PESEL"} 
 		</div>
-        {if \core\RoleUtils::inRole('receptionist')}
+        {*{if \core\RoleUtils::inRole('receptionist')}
 		<div class="col-4">
 			<input type="radio" id="temporaryUser" name="isTemporaryUser" value="1" {if $form->isTemporaryUser}checked{/if} />
 			<label for="temporaryUser">Tymczasowy</label>
 		</div>
-        {/if}
+        {/if}*}
         <div class="col-12">
 			{include file="form_base_input.tpl" type="password" name="password" id="password" value="" placeholder="Hasło"} 
         </div>

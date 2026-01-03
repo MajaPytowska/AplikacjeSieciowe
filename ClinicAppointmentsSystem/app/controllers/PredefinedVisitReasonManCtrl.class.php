@@ -6,7 +6,7 @@ use core\App;
 use app\transfer\VisitReason;
 use core\Validator;
 
-class PredefinedVisitReasonMan{
+class PredefinedVisitReasonManCtrl{
 	private $selectedVisitReason;
 	private $visitReasons;
 

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.5, created on 2025-12-31 19:34:18
+/* Smarty version 5.4.5, created on 2026-01-02 14:36:24
   from 'file:DoctorsGridView.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_69556caa1f8367_61228470',
+  'unifunc' => 'content_6957c9d8a07844_60977360',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e068e2961c7fd89240c3c45696043b9142455baa' => 
     array (
       0 => 'DoctorsGridView.tpl',
-      1 => 1767206024,
+      1 => 1767360981,
       2 => 'file',
     ),
   ),
@@ -20,17 +20,17 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_69556caa1f8367_61228470 (\Smarty\Template $_smarty_tpl) {
+function content_6957c9d8a07844_60977360 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_80365147569556caa1e2d45_82413039', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_6354750676957c9d89f2af1_47813866', "content");
 $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "main.tpl", $_smarty_current_dir);
 }
 /* {block "content"} */
-class Block_80365147569556caa1e2d45_82413039 extends \Smarty\Runtime\Block
+class Block_6354750676957c9d89f2af1_47813866 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views';

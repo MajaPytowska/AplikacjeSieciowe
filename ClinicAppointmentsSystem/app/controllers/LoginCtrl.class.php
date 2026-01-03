@@ -97,7 +97,7 @@ class LoginCtrl{
 		
 		if ($this->validate()){
 			//zalogowany => przekieruj na stronę główną, gdzie uruchomiona zostanie domyślna akcja
-			App::getRouter()->redirectTo("showUserDashboard");
+			App::getRouter()->redirectTo("showMainPage");
 		} else {
 			//niezalogowany => wyświetl stronę logowania
 			$this->generateView(); 
@@ -111,7 +111,7 @@ class LoginCtrl{
     	session_destroy();
 
     	// i przekieruj do wybranej akcji (tej domyślnej po wylogowaniu)
-    	App::getRouter()->redirectTo("showUserDashboard");	 
+    	App::getRouter()->redirectTo("showMainPage");	 
 	}
 	#endregion
 

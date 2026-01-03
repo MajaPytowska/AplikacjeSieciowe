@@ -11,6 +11,7 @@ use core\ParamUtils;
 use app\forms\LoginForm;
 use app\transfer\User;
 use core\RoleUtils;
+use app\services\DatabaseUtils;
 
 class DoctorsGridCtrl{
 	private $doctors;
@@ -20,25 +21,7 @@ class DoctorsGridCtrl{
 	}
 
 	private function getDoctorsFromDB() {
-		$db_doctors = App::getDB()->select('system_user', [
-    		'[><]role_user' => ['iduser' => 'iduser'],
-   			'[><]role' => ['role_user.idrole' => 'idrole'],
-			'[>]doctor_specialization' => ['iduser' => 'iddoctor'],
-			'[>]specialization'        => ['doctor_specialization.idspecialization' => 'idspecialization'],
-
-		], [
-    		'system_user.iduser(id)',
-    		'system_user.nameuser(name)',
-    		'system_user.surname',
-    		'system_user.photourl',
-			'specializations' => App::getDB()->raw('GROUP_CONCAT(DISTINCT specialization.namespecialization ORDER BY specialization.namespecialization SEPARATOR \',\')')
-		], [
-    		'role.namerole' => 'doctor',
-			'GROUP' => 'system_user.iduser',
-			'role_user.withdrawaldatetime' => null, // Tylko aktywni lekarze
-			'ORDER' => ['system_user.surname' => 'ASC', 'system_user.nameuser' => 'ASC'],
-		]);
-		$this->doctors = array_map(function($doctor) { return new Doctor($doctor); }, $db_doctors);
+        $this->doctors = DatabaseUtils::getDoctors();
 	}
 	
 

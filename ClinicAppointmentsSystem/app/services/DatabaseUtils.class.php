@@ -3,6 +3,7 @@ namespace app\services;
 
 use app\transfer\User;
 use app\transfer\VisitReason;
+use app\transfer\Doctor;
 use core\App;
 use app\transfer\Appointment;
 
@@ -18,6 +19,29 @@ class DatabaseUtils{
 			'ORDER' => ['visitreason.namevisitreason' => 'ASC']
 		]));
     }
+
+	public static function getDoctors(): array{
+		return array_map(
+			function($doctor) { return new Doctor($doctor); },
+			App::getDB()->select('system_user', [
+				'[><]role_user' => ['iduser' => 'iduser'],
+				'[><]role' => ['role_user.idrole' => 'idrole'],
+				'[>]doctor_specialization' => ['iduser' => 'iddoctor'],
+				'[>]specialization'        => ['doctor_specialization.idspecialization' => 'idspecialization']
+			], [
+				'system_user.iduser(id)',
+				'system_user.nameuser(name)',
+				'system_user.surname',
+				'system_user.photourl(photourl)',
+				'specializations' => App::getDB()->raw('GROUP_CONCAT(DISTINCT specialization.namespecialization ORDER BY specialization.namespecialization SEPARATOR \', \')')
+			], [
+				'role.namerole' => 'doctor',
+				'GROUP' => 'system_user.iduser',
+				'role_user.withdrawaldatetime' => null,
+				'ORDER' => ['system_user.surname' => 'ASC', 'system_user.nameuser' => 'ASC'],
+			])
+		);
+	}
     public static function getActivePatients(){
         return array_map(
         function ($user) {return new User($user);},
@@ -30,6 +54,27 @@ class DatabaseUtils{
                 'pesel'
             ], [
                 'namestatus' => 'active'
+            ])
+        );
+    }
+
+    public static function getPatients(): array{
+        return array_map(
+            function($patient) { return new User($patient); },
+            App::getDB()->select('system_user', [
+                '[><]role_user' => ['iduser' => 'iduser'],
+                '[><]role' => ['role_user.idrole' => 'idrole'],
+                '[>]useraccountstatus(status)' => ['idstatus' => 'idstatus']
+            ], [
+                'system_user.iduser(id)',
+                'system_user.nameuser(name)',
+                'system_user.surname',
+                'system_user.pesel',
+                'status.namestatus(status)'
+            ], [
+                'role.namerole' => 'patient',
+                'role_user.withdrawaldatetime' => null,
+                'ORDER' => ['system_user.surname' => 'ASC', 'system_user.nameuser' => 'ASC']
             ])
         );
     }

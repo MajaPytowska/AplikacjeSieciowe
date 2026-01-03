@@ -4,11 +4,13 @@
 
 {include file="messages.tpl"}
 
+{if !$isPatient}
 <div>
     <div class="col-6">
         <a class="button primary small" href="{url action='showNewAppointmentForm'}">Dodaj wizytę</a>
     </div>
 </div>
+{/if}
 <div class="table-wrapper">
     <table id="scheduleTable" class="alt">
         <thead>
@@ -17,7 +19,11 @@
                 <th>Godzina</th>
                 <th>Gabinet</th>
                 <th>Lekarz</th>
-                <th>Wolny</th>
+                {if $isPatient}
+                    <th>Przyczyna wizyty</th>
+                {else}
+                    <th>Wolny</th>
+                {/if}
                 <th style="width: 10%;">Akcje</th>
             </tr>
         </thead>
@@ -33,21 +39,31 @@
                     <td>{$appointment->startTime}-{$appointment->endTime}</td>
                     <td>{$appointment->officeName}</td>
                     <td>{$appointment->doctor->name} {$appointment->doctor->surname}</td>
-                    <td>{$appointment->isAvailable ? "TAK" : "NIE"}
-                        {if !$appointment->isAvailable}
-                        <br/>
-                        {$appointment->patientName} {$appointment->patientSurname} ({$appointment->patientPesel})
-                        <br/>
-                        {$appointment->visitReason}
-                        {/if}
-                    </td>
+                    {if $isPatient}
+                        <td>{$appointment->visitReason}</td>
+                    {else}
+                        <td>{$appointment->isAvailable ? "TAK" : "NIE"}
+                            {if !$appointment->isAvailable}
+                            <br/>
+                            {$appointment->patientName} {$appointment->patientSurname} ({$appointment->patientPesel})
+                            <br/>
+                            {$appointment->visitReason}
+                            {/if}
+                        </td>
+                    {/if}
                     <td>
-                        <a class="button primary fit small" href="{url action='deleteAppointment' param1=$appointment->id}">Usuń</a>
-                        <a class="button primary fit small" href="{url action='editAppointment' param1=$appointment->id}">Edytuj</a>
-                        {if $appointment->isAvailable == true}
-                            <a class="button primary fit small" href="{url action='bookAppointment' param1=$appointment->id}">Umów</a>
+                        {if $isPatient}
+                            {if !$appointment->isAvailable}
+                                <a class="button primary fit small" href="{url action='cancelAppointment' param1=$appointment->id}">Anuluj</a>
+                            {/if}
                         {else}
-                            <a class="button primary fit small" href="{url action='cancelAppointment' param1=$appointment->id}">Anuluj</a>
+                            <a class="button primary fit small" href="{url action='deleteAppointment' param1=$appointment->id}">Usuń</a>
+                            <a class="button primary fit small" href="{url action='editAppointment' param1=$appointment->id}">Edytuj</a>
+                            {if $appointment->isAvailable == true}
+                                <a class="button primary fit small" href="{url action='bookAppointment' param1=$appointment->id}">Umów</a>
+                            {else}
+                                <a class="button primary fit small" href="{url action='cancelAppointment' param1=$appointment->id}">Anuluj</a>
+                            {/if}
                         {/if}
                     </td>
                 </tr>

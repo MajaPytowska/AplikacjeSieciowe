@@ -21,14 +21,8 @@ class EditVisitReasonCtrl{
 
 	private function getFormParams(){
 		$v = new Validator();
-
-		$this->visitReason->name = $v->validateFromRequest('name',
-		['required' =>true, 
-		 'required_message' => "Nazwa jest wymagana",
-		 'min_length' => 2,
-  		 'max_length' => 50,
-		 'validator_message' => 'Nazwa powinna mieścić się pomiędzy 2 i 50 znakami.'
-		]);
+		
+		$this->visitReason->name = Utils::stringValidateFromRequest($v,'name',true,"Nazwa jest wymagana.","Nazwa powinna mieścić się pomiędzy 2 i 50 znakami.",null,2,50);
 
 		$this->visitReason->isEnable = ParamUtils::getFromRequest('isEnable') ?? false;
 	}

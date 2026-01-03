@@ -14,40 +14,7 @@
 				<!-- Header -->
 					<header id="header">
 						<h1><a href="index.html">Przychodnia</a></h1>
-						<nav id="nav">
-							<ul>
-								<li class="special">
-									<a href="#menu" class="menuToggle"><span>Menu</span></a>
-									<div id="menu">
-										<ul>
-											<li><a href="index.html">Strona główna</a></li>
-											{if \core\RoleUtils::inRole("admin")}
-												<li><a href="">Recepcjoniści</a></li>
-												<li><a href="">Pacjenci</a></li>
-											{elseif \core\RoleUtils::inRole("receptionist")}
-												<li><a href="{url action='showSchedule'}">Harmonogram</a></li>
-												<li><a href="">Pacjenci</a></li>
-												<li><a href="">Lekarze</a></li>
-												<li><a href="{url action="showPredefinedVisitReasonsMan"}">Predefiniowane przyczyny wizyt</a></li>
-											{elseif \core\RoleUtils::inRole('patient')}
-												<li><a href="">Moje konto</a></li>
-												<li><a href="">Moje wizyty</a></li>
-												<li><a href="{url action="showDoctorsGrid"}">Umów wizytę</a></li>
-											{/if}
-
-											{if \core\RoleUtils::inAnyRole()}
-												<li><a href="{url action="logout"}">Wyloguj</a></li>
-											{else}
-												<li><a href="{url action="login"}">Zaloguj</a></li>
-												<li><a href="{url action="showDoctorsGrid"}">Nasi Lekarze</a></li>
-											{/if}
-
-											<li><a href="elements.html">Elements</a></li>
-										</ul>
-									</div>
-								</li>
-							</ul>
-						</nav>
+						{include file="nav.tpl"}
 					</header>
 
 				<!-- Main -->

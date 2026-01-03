@@ -103,13 +103,34 @@ class Utils {
             'default' => null
         ];
 
-        if ($min !== null) {
-            $rules['min'] = $min;
-        }
-        if ($max !== null) {
-            $rules['max'] = $max;
-        }
+        self::setIfNotNull($rules, 'min', $min);
+        self::setIfNotNull($rules, 'max', $max);
         return $validator->validateFromRequest($param, $rules);
+    }
+
+    public static function stringValidateFromRequest(&$validator, $param, $required = false, $req_message = null, $invalid_message = null, $regexp = null, $min_length = null, $max_length = null) {
+        $rules = [
+            'default' => null
+        ];
+
+        if ($required) {
+            $rules['required'] = true;
+            self::setIfNotNull($rules, 'required_message', $req_message);
+        }
+        self::setIfNotNull($rules, 'regexp', $regexp);
+        self::setIfNotNull($rules, 'min_length', $min_length);
+        self::setIfNotNull($rules, 'max_length', $max_length);
+        self::setIfNotNull($rules, 'validator_message', $invalid_message);
+        return $validator->validateFromRequest($param, $rules);
+    }
+        // Signature adjusted to match existing call sites:
+        // ($validator, $param, $required=false, $req_message=null, $invalid_message=null, $regexp=null, $min_length=null, $max_length=null)
+
+
+    public static function setIfNotNull(&$arr, $index, $value) {
+        if ($value !== null) {
+            $arr[$index] = $value;
+        }
     }
 
     public static function idValidateFromCleanURL(&$validator, $paramNumber, $required = false, $req_message = null ){
@@ -121,7 +142,7 @@ class Utils {
 
         if($required){
             $rules['required'] = true;
-            $rules['required_message'] = $req_message;
+           self::setIfNotNull($rules, 'required_message', $req_message);
         }
 
         return $validator->validateFromCleanURL($paramNumber, $rules);

@@ -30,7 +30,7 @@ class ReservationCtrl{
 		$this->reservation->customVisitReasonEnable = ParamUtils::getFromRequest('customVisitReasonEnable') ? true : false;
 
 		if($this->reservation->customVisitReasonEnable)
-			$this->reservation->customVisitReason = ParamUtils::getFromRequest('customVisitReason', true,"Zaznaczyłeś \"Inna przyczyna wizyty\" wpisz ją");
+			$this->reservation->customVisitReason = Utils::stringValidateFromRequest($v,'customVisitReason',true,"Wpisz przyczynę wizyty.","Zaznaczyłeś Inną przyczynę wizyty - wpisz ją (5-100 znaków).",null,5,100);
 		else
 			$this->reservation->visitReasonId = ParamUtils::getFromRequest('visitReasonId', true, "Wybierz przyczynę wizyty.");
 
@@ -63,7 +63,7 @@ class ReservationCtrl{
 		return !App::getMessages()->isError();
 	}
 
-	private function process(){ //zwraca true jeśli przetwarzanie się powiodło
+	private function process(){
 		$currentUser = SessionUtils::loadObject('user',true);
 		App::getDB()->update('appointment', [
 			'patientiduser' => $this->reservation->patientId ?? $currentUser->id,

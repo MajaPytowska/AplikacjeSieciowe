@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.5, created on 2025-12-31 19:47:02
+/* Smarty version 5.4.5, created on 2026-01-02 16:21:02
   from 'file:ReservationView.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_69556fa699ea91_40864601',
+  'unifunc' => 'content_6957e25e131a91_50352400',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '742b08bf016e4d56392d4a6df6ebe39f7762df45' => 
     array (
       0 => 'ReservationView.tpl',
-      1 => 1767206819,
+      1 => 1767206916,
       2 => 'file',
     ),
   ),
@@ -20,17 +20,17 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_69556fa699ea91_40864601 (\Smarty\Template $_smarty_tpl) {
+function content_6957e25e131a91_50352400 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_207213424269556fa69774c0_83162963', "form_content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_11423036416957e25e107185_20185345', "form_content");
 $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "form_base.tpl", $_smarty_current_dir);
 }
 /* {block "form_content"} */
-class Block_207213424269556fa69774c0_83162963 extends \Smarty\Runtime\Block
+class Block_11423036416957e25e107185_20185345 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views';
@@ -86,7 +86,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 </textarea>
     	</div>    
         <div class="col-12">
-            <input type="submit" value="Umów" class="primary" />
+            <input type="submit" value="Umów" class="primary"/>
         </div>
     </div>
 </form>

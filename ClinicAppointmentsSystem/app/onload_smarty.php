@@ -36,8 +36,15 @@ function asset_url($params, $smarty)
   return \core\App::getConf()->app_root . '/' . $type . $path;
 }
 
+function lng_user_status($params, $smarty)
+{
+    $status = $params['status'];
+    return \app\services\Lng::getStatusName($status);
+}
+
 \core\App::getSmarty()->registerPlugin("function","url", "url");
 \core\App::getSmarty()->registerPlugin("function","rel_url", "rel_url");
 \core\App::getSmarty()->registerPlugin("function","asset_url", "asset_url");
+\core\App::getSmarty()->registerPlugin("function","lng_user_status", "lng_user_status");
 #assign variables
 #\core\App::getSmarty()->assign('variable',$variable);

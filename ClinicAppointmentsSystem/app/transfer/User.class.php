@@ -8,6 +8,7 @@ class User{
 	public $name;
 	public $surname;
 	public $pesel;
+	public $status;
 	
 	public function __construct($user_tb){
 		if(!$user_tb) return;
@@ -15,6 +16,7 @@ class User{
 		$this->login = $user_tb['login'] ?? null;
 		$this->name = $user_tb['name'] ?? null;
 		$this->surname = $user_tb['surname'] ?? null;
-		$this->pesel = $user_tb['pesel'] ?? null;	
+		$this->pesel = $user_tb['pesel'] ?? null;
+		$this->status = $user_tb['status'] ?? null;	
 	}	
 }
