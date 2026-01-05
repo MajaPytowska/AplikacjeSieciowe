@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.5, created on 2026-01-02 15:49:02
+/* Smarty version 5.4.5, created on 2026-01-04 00:00:59
   from 'file:PatientsManView.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_6957dade64f565_93636725',
+  'unifunc' => 'content_69599fab870e94_49077101',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '915ebbb720e6a0c263bc98fd3f17be71fe3026ed' => 
     array (
       0 => 'PatientsManView.tpl',
-      1 => 1767365339,
+      1 => 1767369124,
       2 => 'file',
     ),
   ),
@@ -21,20 +21,20 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:messages.tpl' => 1,
   ),
 ))) {
-function content_6957dade64f565_93636725 (\Smarty\Template $_smarty_tpl) {
+function content_69599fab870e94_49077101 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_6799876746957dade62fea8_22723905', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_125663358769599fab0a8351_45597869', "content");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "main.tpl", $_smarty_current_dir);
 }
 /* {block "content"} */
-class Block_6799876746957dade62fea8_22723905 extends \Smarty\Runtime\Block
+class Block_125663358769599fab0a8351_45597869 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views';
@@ -80,7 +80,7 @@ $foreach0DoElse = false;
 </td>
                     <td><?php echo $_smarty_tpl->getValue('patient')->pesel;?>
 </td>
-                    <td><?php echo $_smarty_tpl->getValue('patient')->status;?>
+                    <td><?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('lng_user_status')->handle(array('status'=>$_smarty_tpl->getValue('patient')->status), $_smarty_tpl);?>
 </td>
                     <td>
                         <?php if ($_smarty_tpl->getValue('isReceptionist')) {?>

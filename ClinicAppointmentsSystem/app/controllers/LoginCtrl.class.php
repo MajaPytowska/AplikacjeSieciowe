@@ -34,10 +34,10 @@ class LoginCtrl{
 		}
 		//sprawdzenie, czy parametry wartości zostały przekazane
 		if ($this->form->login == "") {
-			Utils::addErrorMessage('Nie podano loginu.', 'login');
+			Utils::addErrorMessage('Nie podano loginu.');
 		}
 		if ($this->form->password == "") {
-			Utils::addErrorMessage('Nie podano hasła.', 'password');
+			Utils::addErrorMessage('Nie podano hasła.');
 		}	
 
 		if ( !App::getMessages()->isError()) { //sprawdzenie czy są parametry
@@ -57,7 +57,7 @@ class LoginCtrl{
             ]);
 
 			if(!$db_user) {
-				Utils::addErrorMessage('Nie ma takiego użytkownika.', 'general');
+				Utils::addErrorMessage('Nie ma takiego użytkownika.');
 				return false;
 			}
 
@@ -80,7 +80,7 @@ class LoginCtrl{
 
             } else {
 
-                Utils::addErrorMessage('Niepoprawny login lub hasło.', 'general');
+                Utils::addErrorMessage('Niepoprawny login lub hasło.');
 
             }
 		}

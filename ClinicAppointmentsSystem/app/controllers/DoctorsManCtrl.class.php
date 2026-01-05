@@ -18,12 +18,7 @@ class DoctorsManCtrl{
 
     private function getURLParams(){
         $v = new Validator();
-
-        $this->selectedDoctor = $v->validateFromCleanURL(1,[
-            'int'=>true,
-            'is_numeric' => true,
-            'default' => null
-        ]);
+        $this->selectedDoctor = Utils::idValidateFromCleanURL($v, 1);
     }
 
     private function loadDoctors(){

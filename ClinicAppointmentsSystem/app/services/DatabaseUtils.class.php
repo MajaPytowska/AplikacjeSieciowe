@@ -5,9 +5,20 @@ use app\transfer\User;
 use app\transfer\VisitReason;
 use app\transfer\Doctor;
 use core\App;
+use DateTime;
 use app\transfer\Appointment;
 
 class DatabaseUtils{
+	public static function DB_toDateTime($datetime_str) {
+       $format = 'Y-m-d H:i:s';
+       $dateTime = DateTime::createFromFormat($format, $datetime_str);
+       return $dateTime;
+    }
+
+    public static function DB_DateTimeToString($datetime) {
+       $format = 'Y-m-d H:i:s';
+       return $datetime->format($format);
+    }
     public static function getVisitReasons(): array{
         return array_map(
 		function($visitReason) { return new VisitReason($visitReason); },
@@ -20,21 +31,30 @@ class DatabaseUtils{
 		]));
     }
 
-	public static function getDoctors(): array{
+	public static function getDoctors($includeDescription = false): array{
+		$joins = [
+			'[><]role_user' => ['iduser' => 'iduser'],
+			'[><]role' => ['role_user.idrole' => 'idrole'],
+			'[>]doctor_specialization' => ['iduser' => 'iddoctor'],
+			'[>]specialization'        => ['doctor_specialization.idspecialization' => 'idspecialization']
+		];
+		
+		$columns = [
+			'system_user.iduser(id)',
+			'system_user.nameuser(name)',
+			'system_user.surname',
+			'system_user.photourl(photourl)',
+			'specializations' => App::getDB()->raw('GROUP_CONCAT(DISTINCT specialization.namespecialization ORDER BY specialization.namespecialization SEPARATOR \', \')')
+		];
+		
+		if ($includeDescription) {
+			$joins['[>]doctorinfo'] = ['iduser' => 'iduser'];
+			$columns[] = 'doctorinfo.description';
+		}
+		
 		return array_map(
 			function($doctor) { return new Doctor($doctor); },
-			App::getDB()->select('system_user', [
-				'[><]role_user' => ['iduser' => 'iduser'],
-				'[><]role' => ['role_user.idrole' => 'idrole'],
-				'[>]doctor_specialization' => ['iduser' => 'iddoctor'],
-				'[>]specialization'        => ['doctor_specialization.idspecialization' => 'idspecialization']
-			], [
-				'system_user.iduser(id)',
-				'system_user.nameuser(name)',
-				'system_user.surname',
-				'system_user.photourl(photourl)',
-				'specializations' => App::getDB()->raw('GROUP_CONCAT(DISTINCT specialization.namespecialization ORDER BY specialization.namespecialization SEPARATOR \', \')')
-			], [
+			App::getDB()->select('system_user', $joins, $columns, [
 				'role.namerole' => 'doctor',
 				'GROUP' => 'system_user.iduser',
 				'role_user.withdrawaldatetime' => null,
@@ -42,6 +62,7 @@ class DatabaseUtils{
 			])
 		);
 	}
+
     public static function getActivePatients(){
         return array_map(
         function ($user) {return new User($user);},
@@ -106,4 +127,10 @@ class DatabaseUtils{
 				'ORDER' => ['startdatetime' => 'ASC']
 			]));
     }
+
+	public static function getRoleIdByName($roleName){
+		return App::getDB()->get('role', 'idrole', [
+				'namerole' => $roleName
+			]);
+	}
 }

@@ -32,7 +32,7 @@ class ReservationCtrl{
 		if($this->reservation->customVisitReasonEnable)
 			$this->reservation->customVisitReason = Utils::stringValidateFromRequest($v,'customVisitReason',true,"Wpisz przyczynę wizyty.","Zaznaczyłeś Inną przyczynę wizyty - wpisz ją (5-100 znaków).",null,5,100);
 		else
-			$this->reservation->visitReasonId = ParamUtils::getFromRequest('visitReasonId', true, "Wybierz przyczynę wizyty.");
+			$this->reservation->visitReasonId = Utils::intValidateFromRequest($v,'visitReasonId',"Wybierz przyczynę wizyty.");
 
 		if(!RoleUtils::inRole('patient'))
 			$this->reservation->patientId = Utils::intValidateFromRequest($v,'patientId',"Wybierz pacjenta");  
@@ -70,7 +70,7 @@ class ReservationCtrl{
 			'reservedbyiduser' => $currentUser->id,
 			'idvisitreason' => $this->reservation->visitReasonId,
 			'customvisitreason' => $this->reservation->customVisitReason,
-			'reservationdatetime' => Utils::DB_DateTimeToString(new \DateTime('now')),
+			'reservationdatetime' => DatabaseUtils::DB_DateTimeToString(new \DateTime('now')),
 			'isavailable' => (int)false
 		], [
 			'idappointment' => $this->reservation->appointmentId

@@ -78,17 +78,6 @@ class Utils {
         return App::getConf()->action_root . self::_url_maker_noclean($action, $params);
     }
 
-    public static function DB_toDateTime($datetime_str) {
-       $format = 'Y-m-d H:i:s';
-       $dateTime = DateTime::createFromFormat($format, $datetime_str);
-       return $dateTime;
-    }
-
-    public static function DB_DateTimeToString($datetime) {
-       $format = 'Y-m-d H:i:s';
-       return $datetime->format($format);
-    }
-
     public static function isEmptyString($str) {
         return (!isset($str) || trim($str) === '');
     }
@@ -150,5 +139,12 @@ class Utils {
 
     public static function capitalize($str) : string{
         return ucfirst(strtolower($str));
+    }
+
+    public static function nameValidateFromRequest(&$validator, $param, $required = false) {
+        return self::stringValidateFromRequest($validator, $param, $required, 'Imię wymagane.', 'Imię może zawierać tylko litery (3-50 znaków), pierwsza litera musi być wielka.','/^[\p{L}][\p{L}\-]{2,49}$/u'); // wszystkie litery w standardzie unicode
+    }
+    public static function surnameValidateFromRequest(&$validator, $param, $required = false) {
+        return self::stringValidateFromRequest($validator, $param, $required, 'Nazwisko wymagane.', 'Nazwisko może zawierać tylko litery (3-50 znaków), pierwsza litera musi być wielka.','/^[\p{L}][\p{L}\-]{2,49}$/u'); // wszystkie litery w standardzie unicode
     }
 }

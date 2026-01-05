@@ -21,21 +21,21 @@ class EditDoctorCtrl{
 
     private function getFormParams(){
         $v = new Validator();
-        // signature: (validator, param, required=false, req_message=null, invalid_message=null, regexp=null, min_length=null, max_length=null)
-        $this->doctorForm->name = Utils::stringValidateFromRequest($v,'name',true,'Imię jest wymagane.','Nieprawidłowa wartość.',null,2,50);
-        $this->doctorForm->surname = Utils::stringValidateFromRequest($v,'surname',true,'Nazwisko jest wymagane.','Nieprawidłowa wartość.',null,2,50);
+        $this->doctorForm->name = Utils::nameValidateFromRequest($v,'name',true);
+        $this->doctorForm->surname = Utils::surnameValidateFromRequest($v,'surname',true);
         $this->doctorForm->description = Utils::stringValidateFromRequest($v,'description',false,null,null,null,0,300);
-        $this->doctorForm->photoUrl = Utils::stringValidateFromRequest($v,'photoUrl',false,null,null,null,0,100);
-        // multiple select named "tag[]" in the form -> ParamUtils will return an array
-        $tags = ParamUtils::getFromRequest('tag');
-        if (is_array($tags)) {
-            $this->doctorForm->specializations = array_map('intval', $tags);
+        $this->doctorForm->photoUrl = Utils::stringValidateFromRequest($v,'photoUrl',false,null,'Zdjęcie musi mieć rozszerzenie .jpg, .png lub .webp i długość do 110 znaków','/^.{2,100}\.(jpg|png|webp)$/i');
+        $specializations = ParamUtils::getFromRequest('specializations');
+        if (is_array($specializations)) {
+            $this->doctorForm->specializations = array_map('intval', $specializations); // konwersja na int
         } else {
             $this->doctorForm->specializations = [];
         }
-        // custom specializations textarea (enabled by checkbox)
         $customSpecEnable = ParamUtils::getFromRequest('customSpecEnable') ? true : false;
-        $customSpecRaw = ParamUtils::getFromRequest('customSpecializations');
+        $customSpecRaw = Utils::stringValidateFromRequest($v,
+        'customSpecializations',false,null,
+        'Specjalizacje mogą zawierać tylko litery i spacje, rozdzielone przecinkami',
+        '/^[\p{L}\s]+(,\s*[\p{L}\s]+)*$/u'); // nazwy (litery i spacje) rozdzielone przecinkami - min 1 nazwa
         $this->doctorForm->newSpecializationsRaw = $customSpecEnable && $customSpecRaw ? $customSpecRaw : '';
         if ($customSpecEnable && !Utils::isEmptyString($customSpecRaw)) {
             $parts = array_map('trim', explode(',', $customSpecRaw));

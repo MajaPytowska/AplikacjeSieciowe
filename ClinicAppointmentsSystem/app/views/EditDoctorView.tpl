@@ -17,12 +17,13 @@
             <textarea name="description" id="description" rows="4" placeholder="Opis">{$doctor->description}</textarea>
         </div>
         <div class="col-12">
-            <label for="specializations">Specjalizacje</label>
-            <select name="tag[]" id="specializations" multiple size="6">
-                {foreach from=$allSpecializations item=spec}
-                    <option value="{$spec.id}" {if in_array($spec.id, $doctor->specializations)}selected{/if}>{$spec.name}</option>
-                {/foreach}
-            </select>
+            <label>Specjalizacje</label>
+            {foreach from=$allSpecializations item=spec}
+                <div>
+                    <input type="checkbox" name="specializations[]" id="spec_{$spec.id}" value="{$spec.id}" {if in_array($spec.id, $doctor->specializations)}checked{/if}/>
+                    <label for="spec_{$spec.id}">{$spec.name}</label>
+                </div>
+            {/foreach}
         </div>
         <div class="col-6 col-12-xsmall">
             <input type="checkbox" id="customSpecEnable" name="customSpecEnable" value="1" data-toggle-checkbox="1" data-target-show="customSpecDiv" {if $doctor->newSpecializationsRaw ne ''}checked{/if}>
