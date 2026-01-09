@@ -21,7 +21,7 @@ class DoctorsGridCtrl{
 	}
 
 	private function getDoctorsFromDB() {
-        $this->doctors = DatabaseUtils::getDoctors();
+        $this->doctors = DatabaseUtils::getDoctors(false, true);
 	}
 	
 

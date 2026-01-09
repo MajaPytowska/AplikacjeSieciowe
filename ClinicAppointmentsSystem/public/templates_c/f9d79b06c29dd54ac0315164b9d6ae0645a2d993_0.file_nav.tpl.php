@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.5, created on 2026-01-03 19:40:14
+/* Smarty version 5.4.5, created on 2026-01-09 02:00:08
   from 'file:nav.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_6959628e9be0d2_05713618',
+  'unifunc' => 'content_696053186dd702_66063678',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'f9d79b06c29dd54ac0315164b9d6ae0645a2d993' => 
     array (
       0 => 'nav.tpl',
-      1 => 1767371012,
+      1 => 1767920371,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6959628e9be0d2_05713618 (\Smarty\Template $_smarty_tpl) {
+function content_696053186dd702_66063678 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views\\templates';
 ?><nav id="nav">
     <ul>
@@ -31,7 +31,8 @@ $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\vi
                     <li><a href="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>'showMainPage'), $_smarty_tpl);?>
 ">Strona główna</a></li>
                     <?php if (\core\RoleUtils::inRole("admin")) {?>
-                        <li><a href="">Recepcjoniści</a></li>
+                        <li><a href="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>'showReceptionistsMan'), $_smarty_tpl);?>
+">Recepcjoniści</a></li>
                         <li><a href="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>'showPatientsMan'), $_smarty_tpl);?>
 ">Pacjenci</a></li>
                     <?php } elseif (\core\RoleUtils::inRole("receptionist")) {?>

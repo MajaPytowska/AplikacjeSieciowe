@@ -93,9 +93,6 @@ class EditDoctorCtrl{
         $allSpecIds = $this->doctorForm->specializations;
         foreach ($this->doctorForm->newSpecializations as $specNameRaw) {
             $specName = Utils::capitalize(trim($specNameRaw));
-            if (Utils::isEmptyString($specName)) {
-                continue;
-            }
             if (strlen($specName) > 50) {
                 Utils::addErrorMessage("Nazwa specjalizacji '{$specName}' jest zbyt długa (max 50 znaków).");
                 return;

@@ -39,11 +39,11 @@ class ReservationCtrl{
 	}
 
 	private function loadVisitReasons(){
-		$this->visitReasons = DatabaseUtils::getVisitReasons();
+		$this->visitReasons = DatabaseUtils::getVisitReasons(true);
 	}
 	
 	private function loadPatients(){
-		$this->patients =  DatabaseUtils::getActivePatients();
+		$this->patients =  DatabaseUtils::getPatients(true);
 	}
 
 
@@ -65,18 +65,22 @@ class ReservationCtrl{
 
 	private function process(){
 		$currentUser = SessionUtils::loadObject('user',true);
-		App::getDB()->update('appointment', [
-			'patientiduser' => $this->reservation->patientId ?? $currentUser->id,
-			'reservedbyiduser' => $currentUser->id,
-			'idvisitreason' => $this->reservation->visitReasonId,
-			'customvisitreason' => $this->reservation->customVisitReason,
-			'reservationdatetime' => DatabaseUtils::DB_DateTimeToString(new \DateTime('now')),
-			'isavailable' => (int)false
-		], [
-			'idappointment' => $this->reservation->appointmentId
-		]);
-		Utils::addInfoMessage('Pomyślnie zapisano rezerwację.');
-		$this->cleanReservationFromSession();
+		try{
+			App::getDB()->update('appointment', [
+				'patientiduser' => $this->reservation->patientId ?? $currentUser->id,
+				'reservedbyiduser' => $currentUser->id,
+				'idvisitreason' => $this->reservation->visitReasonId,
+				'customvisitreason' => $this->reservation->customVisitReason,
+				'reservationdatetime' => DatabaseUtils::DB_DateTimeToString(new \DateTime('now')),
+				'isavailable' => (int)false
+			], [
+				'idappointment' => $this->reservation->appointmentId
+			]);
+			Utils::addInfoMessage('Pomyślnie zapisano rezerwację.');
+			$this->cleanReservationFromSession();
+		} catch (\PDOException $e){
+			Utils::addErrorMessage("Wystąpił błąd podczas zapisywania rezerwacji.");
+		}
 	}
 	#region Obsługa akcji
 

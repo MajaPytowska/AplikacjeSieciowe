@@ -75,52 +75,47 @@ class EditAppointmentCtrl{
 		if(!$this->appointmentId){
 			return;
 		}
-		$db_appointment = App::getDB()->get('appointment', [
-			'startdatetime(startDateTime)',
-			'enddatetime(endDateTime)', 
-			'isavailable',
-			'iddoctor(doctorId)',
-			'idoffice(officeId)',
-			'idvisitreason(visitReasonId)',
-			'customvisitreason(customVisitReason)'
+		try {
+			$db_appointment = App::getDB()->get('appointment', [
+				'startdatetime(startDateTime)',
+				'enddatetime(endDateTime)', 
+				'isavailable',
+				'iddoctor(doctorId)',
+				'idoffice(officeId)',
+				'idvisitreason(visitReasonId)',
+				'customvisitreason(customVisitReason)'
 
-		], [
-			'idappointment' => $this->appointmentId
-		]);
-		if($db_appointment){
-			$this->appointment->preload($db_appointment);
+			], [
+				'idappointment' => $this->appointmentId
+			]);
+			if($db_appointment){
+				$this->appointment->preload($db_appointment);
+			}
+		} catch (\Exception $e) {
+			Utils::addErrorMessage('Błąd podczas pobierania danych wizyty.');
 		}
 		
 	}
 
 	private function loadOffices(){
-		$this->offices = array_map(
-		function($office) { return new Office($office); },
-		App::getDB()->select('office', [
-			'office.idoffice(officeId)',
-			'office.nameoffice(officeName)'
-		], [
-			'ORDER' => ['office.nameoffice' => 'ASC']
-		]));
+		try {
+			$this->offices = array_map(
+			function($office) { return new Office($office); },
+			App::getDB()->select('office', [
+				'office.idoffice(officeId)',
+				'office.nameoffice(officeName)'
+			], [
+				'ORDER' => ['office.nameoffice' => 'ASC']
+			]));
+		} catch (\Exception $e) {
+			Utils::addErrorMessage('Błąd podczas pobierania listy gabinetów.');
+			$this->offices = [];
+		}
 	}
 
 
 	private function loadDoctors(){
-		$db_doctors = App::getDB()->select('system_user', [
-    		'[><]role_user' => ['iduser' => 'iduser'],
-   			'[><]role' => ['role_user.idrole' => 'idrole']
-		], [
-    		'system_user.iduser(id)',
-    		'system_user.nameuser(name)',
-    		'system_user.surname',
-		], [
-    		'role.namerole' => 'doctor',
-			'GROUP' => 'system_user.iduser',
-			'ORDER' => ['system_user.surname' => 'ASC', 'system_user.nameuser' => 'ASC'],
-		]);
-		foreach($db_doctors as $doctor){
-			$this->doctors[$doctor['id']] = new Doctor($doctor);
-		}
+		$this->doctors = DatabaseUtils::getDoctors();
 		
 	}
 
@@ -152,27 +147,31 @@ class EditAppointmentCtrl{
 		}
 
 		if(!App::getMessages()->isError()){
-			if($this->appointmentId)
-			{
-				App::getDB()->update('appointment', [
-					'startdatetime' => DatabaseUtils::DB_DateTimeToString($startDateTime),
-					'enddatetime' => DatabaseUtils::DB_DateTimeToString($endDateTime),
-					'iddoctor' => $this->appointment->doctorId,
-					'idoffice' => $this->appointment->officeId,
-					'isavailable' => true
-				], [
-					'idappointment' => $this->appointmentId
-				]);
-			}else{
-				App::getDB()->insert('appointment', [
-					'startdatetime' => DatabaseUtils::DB_DateTimeToString($startDateTime),
-					'enddatetime' => DatabaseUtils::DB_DateTimeToString($endDateTime),
-					'iddoctor' => $this->appointment->doctorId,
-					'idoffice' => $this->appointment->officeId,
-					'isavailable' => true
-				]);
+			try {
+				if($this->appointmentId)
+				{
+					App::getDB()->update('appointment', [
+						'startdatetime' => DatabaseUtils::DB_DateTimeToString($startDateTime),
+						'enddatetime' => DatabaseUtils::DB_DateTimeToString($endDateTime),
+						'iddoctor' => $this->appointment->doctorId,
+						'idoffice' => $this->appointment->officeId,
+						'isavailable' => true
+					], [
+						'idappointment' => $this->appointmentId
+					]);
+				}else{
+					App::getDB()->insert('appointment', [
+						'startdatetime' => DatabaseUtils::DB_DateTimeToString($startDateTime),
+						'enddatetime' => DatabaseUtils::DB_DateTimeToString($endDateTime),
+						'iddoctor' => $this->appointment->doctorId,
+						'idoffice' => $this->appointment->officeId,
+						'isavailable' => true
+					]);
+				}
+				Utils::addInfoMessage('Pomyślnie zapisano wizytę.');
+			} catch (\Exception $e) {
+				Utils::addErrorMessage('Błąd podczas zapisywania wizyty.');
 			}
-			Utils::addInfoMessage('Pomyślnie zapisano wizytę.');
 		}
 
 	}

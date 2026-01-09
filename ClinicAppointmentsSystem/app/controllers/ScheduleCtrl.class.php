@@ -8,27 +8,74 @@ use core\RoleUtils;
 use app\transfer\Doctor;
 use app\transfer\Appointment;
 use app\forms\ReservationForm;
+use app\forms\AppointmentFilterForm;
 use app\services\DatabaseUtils;
 use core\Validator;
+use core\Utils;
+use core\ParamUtils;
+use DateTime;
+use Smarty\Data;
 
 class ScheduleCtrl{
 	private $appointments;
 	private $selectedAppointment;
 	private $doctors;
 	private $isPatient;
+	private $form;
+
 	public function __construct(){	
 		$this->appointments = [];
 		$this->doctors = [];
 		$this->isPatient = false;
+		$this->form = new AppointmentFilterForm();
 	}
 
 	private function getURLParams(){
 		$v = new Validator();
-		$this->selectedAppointment = $v->validateFromCleanURL(1,[
-			'int'=>true,
-			'is_numeric'=>true,
-			'default'=>null
+		$this->selectedAppointment = Utils::idValidateFromCleanURL($v, 1, true);
+	}
+
+	private function getFormParams(){
+		$v = new Validator();
+
+		$dateTimeFrom = $v->validateFromRequest('dateTimeFrom', [
+			'date_format' => 'd/m/Y H:i',
+			'validator_message' => 'Podaj poprawną datę i godzinę początkową - dd/mm/yyyy HH:MM.',
+			'default' => null
 		]);
+		if($dateTimeFrom && $v->isLastOK())
+			$this->form->dateTimeFrom = $dateTimeFrom->format('d/m/Y H:i');
+
+		$dateTimeTo = $v->validateFromRequest('dateTimeTo', [
+			'date_format' => 'd/m/Y H:i',
+			'validator_message' => 'Podaj poprawną datę i godzinę końcową - dd/mm/yyyy HH:MM.',
+			'default' => null
+		]);
+		if($dateTimeTo && $v->isLastOK())
+			$this->form->dateTimeTo = $dateTimeTo->format('d/m/Y H:i');
+
+		$doctorId = ParamUtils::getFromRequest('doctorId');
+		$this->form->doctorId = $doctorId ? intval($doctorId) : null;
+
+		$status = ParamUtils::getFromRequest('appointmentStatus');
+		$this->form->appointmentStatus = $status !== null ? intval($status) : null;
+	}
+
+	private function validate(): bool {
+		if(App::getMessages()->isError())
+			return false;
+
+		if($this->form->dateTimeFrom && $this->form->dateTimeTo) {
+			$dateTimeFrom = DateTime::createFromFormat('d/m/Y H:i', $this->form->dateTimeFrom);
+			$dateTimeTo = DateTime::createFromFormat('d/m/Y H:i', $this->form->dateTimeTo);
+
+			if($dateTimeFrom >= $dateTimeTo) {
+				Utils::addErrorMessage('Data i godzina początkowa musi być wcześniejsza niż data i godzina końcowa.');
+				return false;
+			}
+		}
+
+		return !App::getMessages()->isError();
 	}
 	
 	private function loadAppointments(){
@@ -39,67 +86,61 @@ class ScheduleCtrl{
 			$userId = $user ? $user->id : null;
 		}
 
-		$where = [
-			'ORDER' => ['appointment.startdatetime' => 'ASC', 'office.nameoffice' => 'ASC']
-		];
-		if($this->isPatient && $userId !== null){
-			$where['appointment.patientiduser'] = $userId;
+		$dateTimeFrom = null;
+		$dateTimeTo = null;
+
+		if($this->form->dateTimeFrom) {
+			$dateTimeFrom = DateTime::createFromFormat('d/m/Y H:i', $this->form->dateTimeFrom);
+			$dateTimeFrom = DatabaseUtils::DB_DateTimeToString($dateTimeFrom);
 		}
 
-		$appointments = App::getDB()->select('appointment', [
-			'[>]system_user' => ['patientiduser' => 'iduser'],
-			'[>]office' => ['appointment.idoffice' => 'idoffice'],
-			'[>]visitreason' => ['idvisitreason'=>'idvisitreason']
-		], [
-			'appointment.idappointment(id)',
-			'system_user.nameuser(name)',
-			'system_user.surname',
-			'system_user.pesel',
-			'appointment.reservationdatetime(reservationDatetime)',
-			'visitReason' => App::getDB()->raw('CASE WHEN appointment.idvisitreason IS NOT NULL THEN visitreason.namevisitreason ELSE appointment.customvisitreason END'),
-			'selfReserved' => App::getDB()->raw('CASE WHEN appointment.reservedbyiduser = appointment.patientiduser THEN 1 ELSE 0 END'),
-			'appointment.startdatetime(startDatetime)',
-			'appointment.enddatetime(endDatetime)', 
-			'appointment.isavailable',
-			'appointment.iddoctor(doctorId)',
-			'office.nameoffice(officeName)'
-
-		], $where);
-		foreach($appointments as &$appointment){
-			$this->appointments[] = new Appointment($appointment, $this->doctors[$appointment['doctorId']]);
+		if($this->form->dateTimeTo) {
+			$dateTimeTo = DateTime::createFromFormat('d/m/Y H:i', $this->form->dateTimeTo);
+			$dateTimeTo = DatabaseUtils::DB_DateTimeToString($dateTimeTo);
 		}
+
+		$this->appointments = DatabaseUtils::getAppointments(
+			$this->isPatient ? $userId : null,
+			$this->form->doctorId,
+			$this->form->appointmentStatus,
+			$dateTimeFrom,
+			$dateTimeTo
+		);
+		$this->exstractDoctors();
 	}
-	private function loadDoctors(){ //przygotowanie pod filtrację
-		$db_doctors = App::getDB()->select('system_user', [
-    		'[><]role_user' => ['iduser' => 'iduser'],
-   			'[><]role' => ['role_user.idrole' => 'idrole']
-		], [
-    		'system_user.iduser(id)',
-    		'system_user.nameuser(name)',
-    		'system_user.surname',
-		], [
-    		'role.namerole' => 'doctor',
-			'GROUP' => 'system_user.iduser',
-			'ORDER' => ['system_user.surname' => 'ASC', 'system_user.nameuser' => 'ASC'],
-		]);
-		foreach($db_doctors as $doctor){
-			$this->doctors[$doctor['id']] = new Doctor($doctor);
+
+	private function exstractDoctors(){
+		$list = [];
+		foreach($this->appointments as $appointment){
+			if(isset($list[$appointment->doctor->id])) continue;
+			$list[$appointment->doctor->id] = $appointment->doctor;
 		}
-		
+		$this->doctors = $list;
 	}
 
 	#region Obsługa akcji
 
 	public function action_showSchedule(){
-		$this->loadDoctors();
 		$this->loadAppointments();
+		$this->generateView();
+	}
+
+	public function action_filterAppointments(){
+		$this->getFormParams();
+		if($this->validate()) {
+			$this->loadAppointments();
+		}
 		$this->generateView();
 	}
 
 	public function action_deleteAppointment(){
 		$this->getURLParams();
 		if($this->selectedAppointment){
-			App::getDB()->delete('appointment',['idappointment'=>$this->selectedAppointment]);
+			try{
+				App::getDB()->delete('appointment',['idappointment'=>$this->selectedAppointment]);
+			} catch (\PDOException $e){
+				Utils::addErrorMessage("Wystąpił błąd podczas usuwania wizyty.");
+			}
 		}
 		App::getRouter()->redirectTo("showSchedule");//usunięcie artefaktów w url
 	}
@@ -128,6 +169,7 @@ class ScheduleCtrl{
 		App::getSmarty()->assign('appointments', $this->appointments);
 		App::getSmarty()->assign('doctors', $this->doctors);
 		App::getSmarty()->assign('isPatient', $this->isPatient);
+		App::getSmarty()->assign('form', $this->form);
 		App::getSmarty()->assign('page_title','Wizyty');
         App::getSmarty()->assign('page_description','Zarządzanie wizytami');
         App::getSmarty()->assign('page_header','Wizyty');

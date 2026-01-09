@@ -3981,3 +3981,45 @@ input, select, textarea {
 	body.is-mobile.landing #footer {
 		background-color: #1d242a;
 	}
+
+	/*#region MessageBoxes*/
+
+.message{
+	padding: 0.5rem 0.75rem 0.5rem 1rem; 
+	margin-bottom: 1.5em;
+}
+.message li,span{
+	color: #fff;
+	text-align: start;
+}
+.message ol{
+	margin-bottom: 0.5em;
+}
+.message.error{
+	background-color: #D98882;
+}
+
+.message .icon:before{
+	margin-right: 0.5em;
+}
+.message h3{
+	color: #fff !important;
+	margin-bottom: 0.25em;
+}
+.message.success{
+	background-color: #6DC590;
+}
+.message.success .result{
+	color: #fff;
+	font-size: 2em;
+	text-underline-offset: 0.3em;
+	font-weight: 800;
+	padding: 0.5em 0 1em 0;
+}
+
+.message.info {
+	background-color: #56AAC8;
+}
+/*#endregion*/
+.apo-list > div:not(:last-child) { border-bottom: 2px solid #ccc; }
+.apo-list > div:not(:first-child) {  margin-top: 1em; }

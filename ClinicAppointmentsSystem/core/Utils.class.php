@@ -99,6 +99,7 @@ class Utils {
 
     public static function stringValidateFromRequest(&$validator, $param, $required = false, $req_message = null, $invalid_message = null, $regexp = null, $min_length = null, $max_length = null) {
         $rules = [
+            'trim' => true,
             'default' => null
         ];
 
@@ -146,5 +147,17 @@ class Utils {
     }
     public static function surnameValidateFromRequest(&$validator, $param, $required = false) {
         return self::stringValidateFromRequest($validator, $param, $required, 'Nazwisko wymagane.', 'Nazwisko może zawierać tylko litery (3-50 znaków), pierwsza litera musi być wielka.','/^[\p{L}][\p{L}\-]{2,49}$/u'); // wszystkie litery w standardzie unicode
+    }
+
+    public static function passwordValidateFromRequest(&$validator, $param, $required = false) {
+        // Min 8 znaków, co najmniej 1 wielka litera i 1 cyfra
+        return self::stringValidateFromRequest(
+            $validator,
+            $param,
+            $required,
+            'Hasło wymagane.',
+            'Hasło musi mieć min. 8 znaków oraz zawierać co najmniej jedną wielką literę i jedną cyfrę.',
+            '/^(?=.*[A-Z])(?=.*\d).{8,}$/'
+        );
     }
 }

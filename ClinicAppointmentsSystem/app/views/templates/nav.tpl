@@ -6,7 +6,7 @@
                 <ul>
                     <li><a href="{url action='showMainPage'}">Strona główna</a></li>
                     {if \core\RoleUtils::inRole("admin")}
-                        <li><a href="">Recepcjoniści</a></li>
+                        <li><a href="{url action='showReceptionistsMan'}">Recepcjoniści</a></li>
                         <li><a href="{url action='showPatientsMan'}">Pacjenci</a></li>
                     {elseif \core\RoleUtils::inRole("receptionist")}
                         <li><a href="{url action='showSchedule'}">Harmonogram</a></li>

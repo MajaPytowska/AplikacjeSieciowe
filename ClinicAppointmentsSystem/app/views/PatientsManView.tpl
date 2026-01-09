@@ -3,12 +3,13 @@
 {block name="content"}
 
 {include file="messages.tpl"}
-
+{if $isReceptionist}
 <div>
     <div class="col-6">
         <a class="button primary small" href="{url action='showRegistrationForm'}">Zarejestruj nowego pacjenta</a>
     </div>
 </div>
+{/if}
 <div class="table-wrapper">
     <table id="patientsTable" class="alt">
         <thead>

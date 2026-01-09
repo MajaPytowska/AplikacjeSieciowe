@@ -15,10 +15,12 @@
                 <th>Nazwisko</th>
                 <td>{$user->surname}</td>
             </tr>
+            {if $user->pesel}
             <tr>
                 <th>PESEL</th>
                 <td>{$user->pesel}</td>
             </tr>
+            {/if}
             <tr>
                 <th>Status konta</th>
                 <td>{lng_user_status status=$user->status}</td>

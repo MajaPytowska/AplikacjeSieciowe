@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use core\App;
-use app\transfer\Doctor;
 use core\Utils;
 use core\Validator;
 use app\services\DatabaseUtils;
@@ -11,7 +10,6 @@ use app\services\DatabaseUtils;
 class DoctorsManCtrl{
     private $selectedDoctor;
     private $doctors;
-
     public function __construct(){
         $this->doctors = [];
     }
@@ -22,7 +20,7 @@ class DoctorsManCtrl{
     }
 
     private function loadDoctors(){
-        $this->doctors = DatabaseUtils::getDoctors();
+        $this->doctors = DatabaseUtils::getDoctors(false, true);
     }
     
     #region Obsługa akcji
@@ -35,27 +33,33 @@ class DoctorsManCtrl{
     public function action_deleteDoctor(){
         $this->getURLParams();
         if($this->selectedDoctor){
-            // Sprawdź czy ma umówione (zarezerwowane) wizyty
-            $reserved = App::getDB()->count('appointment', [
-                'iddoctor' => $this->selectedDoctor,
-                'isavailable' => 0
-            ]);
-            if($reserved > 0){
-                Utils::addErrorMessage("Lekarz ma umówione wizyty - najpierw musisz anulować te wizyty");
-                $this->action_showDoctorsMan();
-                return;
+            try {
+                // Sprawdź czy ma umówione (zarezerwowane) wizyty
+                $reserved = App::getDB()->count('appointment', [
+                    'iddoctor' => $this->selectedDoctor,
+                    'isavailable' => 0
+                ]);
+                
+                if($reserved > 0){
+                    Utils::addErrorMessage("Lekarz ma umówione wizyty - najpierw musisz anulować te wizyty");
+                    $this->action_showDoctorsMan();
+                    return;
+                }
+
+                // Usuń zaplanowane, ale dostępne wizyty tego lekarza
+                App::getDB()->delete('appointment', [
+                    'iddoctor' => $this->selectedDoctor,
+                    'isavailable' => 1
+                ]);
+
+                App::getDB()->delete('doctorinfo',['iduser'=>$this->selectedDoctor]);
+                App::getDB()->delete('doctor_specialization',['iddoctor'=>$this->selectedDoctor]);
+                App::getDB()->delete('role_user',['iduser'=>$this->selectedDoctor]);
+                App::getDB()->delete('system_user',['iduser'=>$this->selectedDoctor]);
+                Utils::addInfoMessage('Lekarz został usunięty.');
+            } catch (\Exception $e) {
+                Utils::addErrorMessage('Błąd podczas usuwania lekarza.');
             }
-
-            // Usuń zaplanowane, ale dostępne wizyty tego lekarza
-            App::getDB()->delete('appointment', [
-                'iddoctor' => $this->selectedDoctor,
-                'isavailable' => 1
-            ]);
-
-            App::getDB()->delete('doctorinfo',['iduser'=>$this->selectedDoctor]);
-            App::getDB()->delete('doctor_specialization',['iddoctor'=>$this->selectedDoctor]);
-            App::getDB()->delete('role_user',['iduser'=>$this->selectedDoctor]);
-            App::getDB()->delete('system_user',['iduser'=>$this->selectedDoctor]);
         }
         App::getRouter()->redirectTo("showDoctorsMan");
     }

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.5, created on 2026-01-04 00:00:59
+/* Smarty version 5.4.5, created on 2026-01-05 15:11:20
   from 'file:PatientsManView.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_69599fab870e94_49077101',
+  'unifunc' => 'content_695bc6880f0297_33514959',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '915ebbb720e6a0c263bc98fd3f17be71fe3026ed' => 
     array (
       0 => 'PatientsManView.tpl',
-      1 => 1767369124,
+      1 => 1767622278,
       2 => 'file',
     ),
   ),
@@ -21,20 +21,20 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:messages.tpl' => 1,
   ),
 ))) {
-function content_69599fab870e94_49077101 (\Smarty\Template $_smarty_tpl) {
+function content_695bc6880f0297_33514959 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_125663358769599fab0a8351_45597869', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1612691559695bc6880c6be2_81293430', "content");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "main.tpl", $_smarty_current_dir);
 }
 /* {block "content"} */
-class Block_125663358769599fab0a8351_45597869 extends \Smarty\Runtime\Block
+class Block_1612691559695bc6880c6be2_81293430 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views';
@@ -42,14 +42,14 @@ $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\vi
 
 
 <?php $_smarty_tpl->renderSubTemplate("file:messages.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
-?>
-
+if ($_smarty_tpl->getValue('isReceptionist')) {?>
 <div>
     <div class="col-6">
         <a class="button primary small" href="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>'showRegistrationForm'), $_smarty_tpl);?>
 ">Zarejestruj nowego pacjenta</a>
     </div>
 </div>
+<?php }?>
 <div class="table-wrapper">
     <table id="patientsTable" class="alt">
         <thead>

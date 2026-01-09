@@ -4,13 +4,19 @@
 
 {include file="messages.tpl"}
 
-<div>
+<div  class="row apo-list" style="justify-content: center;">
     {if count($appointments) >0}
     {foreach from=$appointments item=appointment}
-    <div class="row">
-        <h2>{$appointment->date}</h2>
-        <h3>{$appointment->startTime}-{$appointment->endTime}</h3>
-        <a href="{url action='selectAppointment' param1=$appointment->id}" class="button fit small">Wybierz</a>
+    <div class="row" style="width: 80%; justify-content: center;">
+        <div class="col-4 col-6-small">
+            <h2>{$appointment->date}</h2>
+        </div>
+        <div class="col-4 col-6-small">
+             <h3>{$appointment->startTime}-{$appointment->endTime}</h3>
+        </div>
+        <div class="col-4 col-12-small">
+            <a href="{url action='selectAppointment' param1=$appointment->id}" class="button fit small">Wybierz</a>
+        </div>
     </div>
     {/foreach}
     {else}
