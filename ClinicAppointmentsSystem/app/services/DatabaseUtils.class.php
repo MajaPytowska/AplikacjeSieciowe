@@ -189,7 +189,7 @@ class DatabaseUtils{
 		}
 	}
 
-    public static function getAppointments($patientId = null, $doctorId = null, $avaiable = null, $dateTimeFrom = null, $dateTimeTo = null): array{
+    public static function getAppointments($patientId = null, $doctorId = null, $avaiable = null, $dateTimeFrom = null, $dateTimeTo = null, $limit = null, $offset = 0, &$isMore = false): array{
         $where = [
 			'ORDER' => ['appointment.startdatetime' => 'ASC', 'office.nameoffice' => 'ASC']
 		];
@@ -208,6 +208,9 @@ class DatabaseUtils{
 		}
 		if($dateTimeTo !== null){
 			$where['appointment.enddatetime[<=]'] = $dateTimeTo;
+		}
+		if($limit !== null){
+			$where['LIMIT'] = [$offset, $limit + 1]; // Pobierz o jeden więcej, aby sprawdzić, czy jest więcej wyników
 		}
 
 		try{
@@ -233,7 +236,16 @@ class DatabaseUtils{
 				'office.nameoffice(officeName)'
 
 			], $where);
-            return array_map(function ($appointment) { return new Appointment($appointment); }, $appointments);
+            $array = array_map(function($appointment) { return new Appointment($appointment); }, $appointments);
+			if($limit !== null){
+				if(count($array) > $limit){
+					$isMore = true;
+					array_pop($array); // Usuń dodatkowy rekord użyty do sprawdzenia isMore
+				} else {
+					$isMore = false;
+				}
+			}
+			return $array;
 		} catch (\PDOException $e){
 			Utils::addErrorMessage("Wystąpił błąd podczas wczytywania wizyt.");
             return [];

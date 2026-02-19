@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.5, created on 2026-01-02 17:12:13
+/* Smarty version 5.4.5, created on 2026-02-14 22:43:36
   from 'file:main.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_6957ee5db30b20_44764368',
+  'unifunc' => 'content_6990ec883ddcd8_31113076',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c16bacd9ddccfa072090428f402ee784606b1b6d' => 
     array (
       0 => 'main.tpl',
-      1 => 1767370202,
+      1 => 1771105177,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:nav.tpl' => 1,
   ),
 ))) {
-function content_6957ee5db30b20_44764368 (\Smarty\Template $_smarty_tpl) {
+function content_6990ec883ddcd8_31113076 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views\\templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ?>
@@ -61,7 +61,7 @@ $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 						<section class="wrapper style5">
 							<div class="inner">
 								<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_10995481826957ee5db27106_25851949', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_5298981036990ec881f37a3_69874801', "content");
 ?>
 
 							</div>
@@ -113,11 +113,14 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1099548182695
  src="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('asset_url')->handle(array('path'=>"assets/js/main.js"), $_smarty_tpl);?>
 "><?php echo '</script'; ?>
 >
-
+			<?php echo '<script'; ?>
+ src="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('asset_url')->handle(array('path'=>"assets/js/ajaxFunctions.js"), $_smarty_tpl);?>
+"><?php echo '</script'; ?>
+>
 	</body>
 </html><?php }
 /* {block "content"} */
-class Block_10995481826957ee5db27106_25851949 extends \Smarty\Runtime\Block
+class Block_5298981036990ec881f37a3_69874801 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views\\templates';

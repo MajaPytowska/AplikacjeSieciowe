@@ -22,6 +22,7 @@ Utils::addRoute('showDoctorsGrid', 'DoctorsGridCtrl');
 Utils::addRoute('showDoctorDetails', 'DoctorDetailsCtrl');
 
 Utils::addRoute('showSchedule', 'ScheduleCtrl', ['receptionist', 'patient']);
+Utils::addRoute('showSchedulePart', 'ScheduleCtrl', ['receptionist', 'patient']);
 Utils::addRoute('filterAppointments', 'ScheduleCtrl', ['receptionist']);
 Utils::addRoute('deleteAppointment','ScheduleCtrl', ['receptionist']);
 Utils::addRoute('bookAppointment','ScheduleCtrl', ['receptionist']);

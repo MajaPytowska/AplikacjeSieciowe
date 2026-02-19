@@ -10,6 +10,7 @@ use app\transfer\Appointment;
 use app\forms\ReservationForm;
 use app\forms\AppointmentFilterForm;
 use app\services\DatabaseUtils;
+use app\transfer\Pagination;
 use core\Validator;
 use core\Utils;
 use core\ParamUtils;
@@ -22,12 +23,15 @@ class ScheduleCtrl{
 	private $doctors;
 	private $isPatient;
 	private $form;
+	private $viewLimit = 2;
+	private $pagination;
 
 	public function __construct(){	
 		$this->appointments = [];
 		$this->doctors = [];
 		$this->isPatient = false;
 		$this->form = new AppointmentFilterForm();
+		$this->pagination = new Pagination();
 	}
 
 	private function getURLParams(){
@@ -78,7 +82,7 @@ class ScheduleCtrl{
 		return !App::getMessages()->isError();
 	}
 	
-	private function loadAppointments(){
+	private function loadAppointments($page = 1){
 		$this->isPatient = RoleUtils::inRole('patient');
 		$userId = null;
 		if($this->isPatient){
@@ -98,14 +102,20 @@ class ScheduleCtrl{
 			$dateTimeTo = DateTime::createFromFormat('d/m/Y H:i', $this->form->dateTimeTo);
 			$dateTimeTo = DatabaseUtils::DB_DateTimeToString($dateTimeTo);
 		}
-
+		$hasNextPage = false;
 		$this->appointments = DatabaseUtils::getAppointments(
 			$this->isPatient ? $userId : null,
 			$this->form->doctorId,
 			$this->form->appointmentStatus,
 			$dateTimeFrom,
-			$dateTimeTo
+			$dateTimeTo,
+			$this->viewLimit,
+			($page - 1) * $this->viewLimit,
+			$hasNextPage
 		);
+		$this->pagination->currentPage = $page;
+		$this->pagination->isPreviousPage = $page > 1;
+		$this->pagination->isNextPage = $hasNextPage;
 		$this->exstractDoctors();
 	}
 
@@ -123,6 +133,12 @@ class ScheduleCtrl{
 	public function action_showSchedule(){
 		$this->loadAppointments();
 		$this->generateView();
+	}
+
+	public function action_showSchedulePart(){
+		$page = intval(ParamUtils::getFromRequest('page') ?? '1');
+		$this->loadAppointments($page);
+		$this->generatePartialView();
 	}
 
 	public function action_filterAppointments(){
@@ -170,9 +186,16 @@ class ScheduleCtrl{
 		App::getSmarty()->assign('doctors', $this->doctors);
 		App::getSmarty()->assign('isPatient', $this->isPatient);
 		App::getSmarty()->assign('form', $this->form);
+		App::getSmarty()->assign('pagination', $this->pagination);
 		App::getSmarty()->assign('page_title','Wizyty');
+		App::getSmarty()->assign('page_description','Zarządzanie wizytami');
         App::getSmarty()->assign('page_description','Zarządzanie wizytami');
         App::getSmarty()->assign('page_header','Wizyty');
 		App::getSmarty()->display('ScheduleView.tpl');	
+	}
+	private function generatePartialView(){
+		App::getSmarty()->assign('appointments', $this->appointments);
+		App::getSmarty()->assign('pagination', $this->pagination);
+		App::getSmarty()->display('ScheduleTable.tpl');	
 	}
 }

@@ -113,8 +113,6 @@ class Utils {
         self::setIfNotNull($rules, 'validator_message', $invalid_message);
         return $validator->validateFromRequest($param, $rules);
     }
-        // Signature adjusted to match existing call sites:
-        // ($validator, $param, $required=false, $req_message=null, $invalid_message=null, $regexp=null, $min_length=null, $max_length=null)
 
 
     public static function setIfNotNull(&$arr, $index, $value) {

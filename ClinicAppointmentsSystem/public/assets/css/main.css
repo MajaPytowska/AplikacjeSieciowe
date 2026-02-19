@@ -4023,3 +4023,23 @@ input, select, textarea {
 /*#endregion*/
 .apo-list > div:not(:last-child) { border-bottom: 2px solid #ccc; }
 .apo-list > div:not(:first-child) {  margin-top: 1em; }
+
+.pagination {
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    gap: 5px;                
+    width: 100%;            
+}
+
+.pagination > :first-child {
+    margin-right: auto;      
+}
+
+.pagination > button.icon:before {
+	margin: 0px !important;          
+}
+
+.pagination > :last-child {
+    margin-left: auto;      
+}

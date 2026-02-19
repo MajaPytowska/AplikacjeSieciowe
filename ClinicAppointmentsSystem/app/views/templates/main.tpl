@@ -56,6 +56,6 @@
 			<script src="{asset_url path="assets/js/breakpoints.min.js"}"></script>
 			<script src="{asset_url path="assets/js/util.js"}"></script>
 			<script src="{asset_url path="assets/js/main.js"}"></script>
-
+			<script src="{asset_url path="assets/js/ajaxFunctions.js"}"></script>
 	</body>
 </html>
