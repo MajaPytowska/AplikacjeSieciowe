@@ -47,12 +47,12 @@
                                 <a class="button primary fit small" href="{url action='cancelAppointment' param1=$appointment->id}">Anuluj</a>
                             {/if}
                         {else}
-                            <a class="button primary fit small" href="{url action='deleteAppointment' param1=$appointment->id}">Usuń</a>
+                            <a class="button primary fit small" onclick="confirmLink('{url action='deleteAppointment' param1=$appointment->id}', 'Czy na pewno chcesz usunąć tę wizytę?')">Usuń</a>
                             <a class="button primary fit small" href="{url action='editAppointment' param1=$appointment->id}">Edytuj</a>
                             {if $appointment->isAvailable == true}
                                 <a class="button primary fit small" href="{url action='bookAppointment' param1=$appointment->id}">Umów</a>
                             {else}
-                                <a class="button primary fit small" href="{url action='cancelAppointment' param1=$appointment->id}">Anuluj</a>
+                                <a class="button primary fit small" onclick="confirmLink('{url action='cancelAppointment' param1=$appointment->id}', 'Czy na pewno chcesz anulować tą wizytę?')">Anuluj</a>
                             {/if}
                         {/if}
                     </td>

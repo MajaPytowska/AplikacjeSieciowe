@@ -4091,7 +4091,7 @@ input[type="date"]:focus {
 	padding: 0;
 	overflow: hidden;
 	margin: 2em 0 2em 0;
-}
+} 
 @media screen and (max-width: 780px) {
 	.filter-container {
 		flex-direction: column;

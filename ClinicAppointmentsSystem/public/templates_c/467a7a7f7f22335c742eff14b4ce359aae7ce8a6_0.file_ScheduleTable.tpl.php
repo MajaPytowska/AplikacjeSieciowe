@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.5, created on 2026-03-13 01:20:55
+/* Smarty version 5.4.5, created on 2026-03-13 22:21:10
   from 'file:ScheduleTable.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_69b3586725dcd4_22431033',
+  'unifunc' => 'content_69b47fc68c0700_56987019',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '467a7a7f7f22335c742eff14b4ce359aae7ce8a6' => 
     array (
       0 => 'ScheduleTable.tpl',
-      1 => 1773361252,
+      1 => 1773436868,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_69b3586725dcd4_22431033 (\Smarty\Template $_smarty_tpl) {
+function content_69b47fc68c0700_56987019 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views';
 echo '<script'; ?>
 >
@@ -92,16 +92,16 @@ $foreach0DoElse = false;
 ">Anuluj</a>
                             <?php }?>
                         <?php } else { ?>
-                            <a class="button primary fit small" href="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>'deleteAppointment','param1'=>$_smarty_tpl->getValue('appointment')->id), $_smarty_tpl);?>
-">Usuń</a>
+                            <a class="button primary fit small" onclick="confirmLink('<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>'deleteAppointment','param1'=>$_smarty_tpl->getValue('appointment')->id), $_smarty_tpl);?>
+', 'Czy na pewno chcesz usunąć tę wizytę?')">Usuń</a>
                             <a class="button primary fit small" href="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>'editAppointment','param1'=>$_smarty_tpl->getValue('appointment')->id), $_smarty_tpl);?>
 ">Edytuj</a>
                             <?php if ($_smarty_tpl->getValue('appointment')->isAvailable == true) {?>
                                 <a class="button primary fit small" href="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>'bookAppointment','param1'=>$_smarty_tpl->getValue('appointment')->id), $_smarty_tpl);?>
 ">Umów</a>
                             <?php } else { ?>
-                                <a class="button primary fit small" href="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>'cancelAppointment','param1'=>$_smarty_tpl->getValue('appointment')->id), $_smarty_tpl);?>
-">Anuluj</a>
+                                <a class="button primary fit small" onclick="confirmLink('<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>'cancelAppointment','param1'=>$_smarty_tpl->getValue('appointment')->id), $_smarty_tpl);?>
+', 'Czy na pewno chcesz anulować tą wizytę?')">Anuluj</a>
                             <?php }?>
                         <?php }?>
                     </td>
