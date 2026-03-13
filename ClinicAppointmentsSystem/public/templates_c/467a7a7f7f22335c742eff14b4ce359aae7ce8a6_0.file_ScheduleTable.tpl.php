@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.5, created on 2026-02-19 21:01:56
+/* Smarty version 5.4.5, created on 2026-03-13 01:20:55
   from 'file:ScheduleTable.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_69976c3463ced9_57763554',
+  'unifunc' => 'content_69b3586725dcd4_22431033',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '467a7a7f7f22335c742eff14b4ce359aae7ce8a6' => 
     array (
       0 => 'ScheduleTable.tpl',
-      1 => 1771531314,
+      1 => 1773361252,
       2 => 'file',
     ),
   ),
@@ -20,9 +20,15 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_69976c3463ced9_57763554 (\Smarty\Template $_smarty_tpl) {
+function content_69b3586725dcd4_22431033 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views';
-?>
+echo '<script'; ?>
+>
+    const localPaginationPreset =['scheduleFilterForm', '<?php echo $_smarty_tpl->getValue('conf')->action_root;?>
+showSchedulePart','scheduleTableWrapper'];
+<?php echo '</script'; ?>
+>
+
     <table id="scheduleTable" class="alt">
         <thead>
             <tr>
@@ -109,11 +115,9 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 <?php if ($_smarty_tpl->getValue('pagination')->isPreviousPage || $_smarty_tpl->getValue('pagination')->isNextPage) {?>
 <div class="pagination">
     <button <?php if (!$_smarty_tpl->getValue('pagination')->isPreviousPage) {?>disabled <?php }?>class="primary small icon solid fa-chevron-left" onclick="changePage(<?php echo $_smarty_tpl->getValue('pagination')->currentPage-1;?>
-, 'scheduleFilterForm', '<?php echo $_smarty_tpl->getValue('conf')->action_root;?>
-showSchedulePart','scheduleTableWrapper')"></button>
+, ...localPaginationPreset);"></button>
     <button id="shv-nextPage" <?php if (!$_smarty_tpl->getValue('pagination')->isNextPage) {?>disabled <?php }?> class="primary small icon solid fa-chevron-right" onclick="changePage(<?php echo $_smarty_tpl->getValue('pagination')->currentPage+1;?>
-, 'scheduleFilterForm', '<?php echo $_smarty_tpl->getValue('conf')->action_root;?>
-showSchedulePart','scheduleTableWrapper')"></button>
+, ...localPaginationPreset)"></button>
 </div>
 <?php }
 }

@@ -189,7 +189,7 @@ class DatabaseUtils{
 		}
 	}
 
-    public static function getAppointments($patientId = null, $doctorId = null, $avaiable = null, $dateTimeFrom = null, $dateTimeTo = null, $limit = null, $offset = 0, &$isMore = false): array{
+    public static function getAppointments($patientId = null, $doctorId = null, $avaiable = null, $dateTimeFrom = null, $dateTimeTo = null, $limit = null, $offset = 0, &$isMore = false, $doctorNameLike = null, $patientNameLike = null): array{
         $where = [
 			'ORDER' => ['appointment.startdatetime' => 'ASC', 'office.nameoffice' => 'ASC']
 		];
@@ -197,8 +197,42 @@ class DatabaseUtils{
 		if($patientId !== null){
 			$where['appointment.patientiduser'] = $patientId;
 		}
+		else if(!Utils::isEmptyString($patientNameLike)){
+			$tab = explode(' ', $patientNameLike);
+			if(!Utils::isEmptyString($tab[0])){
+				$name = trim($tab[0]) . '%';
+				$where['OR']['patient.nameuser[~]'] = $name;
+
+			}
+			if(count($tab) > 1 && !Utils::isEmptyString($tab[1])){
+				$name = trim($tab[1]) . '%';
+				$where['OR']['patient.surname[~]'] = $name;
+			}
+			else {
+				$name = trim($patientNameLike) . '%';
+				$where['OR']['patient.nameuser[~]'] = $name;
+				$where['OR']['patient.surname[~]'] = $name;
+			}
+		}
 		if($doctorId !== null){
 			$where['appointment.iddoctor'] = $doctorId;
+		}
+		else if(!Utils::isEmptyString($doctorNameLike)){
+			$tab = explode(' ', $doctorNameLike);
+			if(!Utils::isEmptyString($tab[0])){
+				$name = trim($tab[0]) . '%';
+				$where['OR']['doctor.nameuser[~]'] = $name;
+
+			}
+			if(count($tab) > 1 && !Utils::isEmptyString($tab[1])){
+				$name = trim($tab[1]) . '%';
+				$where['OR']['doctor.surname[~]'] = $name;
+			}
+			else {
+			$name = trim($doctorNameLike) . '%';
+				$where['OR']['doctor.nameuser[~]'] = $name;
+				$where['OR']['doctor.surname[~]'] = $name;
+			}
 		}
 		if($avaiable !== null){
 			$where['appointment.isavailable'] = $avaiable;

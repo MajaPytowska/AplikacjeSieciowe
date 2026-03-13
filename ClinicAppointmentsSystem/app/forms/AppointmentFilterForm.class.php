@@ -5,13 +5,13 @@ namespace app\forms;
 class AppointmentFilterForm {
 	public $dateTimeFrom;
 	public $dateTimeTo;
-	public $doctorId;
+	public $name;
 	public $appointmentStatus;
 
 	public function __construct() {
 		$this->dateTimeFrom = null;
 		$this->dateTimeTo = null;
-		$this->doctorId = null;
+		$this->name = null;
 		$this->appointmentStatus = null;
 	}
 }

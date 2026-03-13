@@ -100,6 +100,7 @@ class LoginCtrl{
 			App::getRouter()->redirectTo("showMainPage");
 		} else {
 			//niezalogowany => wyświetl stronę logowania
+			http_response_code(401); //"Unauthorized"
 			$this->generateView(); 
 		}
 		

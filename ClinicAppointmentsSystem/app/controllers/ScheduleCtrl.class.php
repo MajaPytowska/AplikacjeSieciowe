@@ -23,7 +23,7 @@ class ScheduleCtrl{
 	private $doctors;
 	private $isPatient;
 	private $form;
-	private $viewLimit = 2;
+	private $viewLimit = 5;
 	private $pagination;
 
 	public function __construct(){	
@@ -43,26 +43,24 @@ class ScheduleCtrl{
 		$v = new Validator();
 
 		$dateTimeFrom = $v->validateFromRequest('dateTimeFrom', [
-			'date_format' => 'd/m/Y H:i',
-			'validator_message' => 'Podaj poprawną datę i godzinę początkową - dd/mm/yyyy HH:MM.',
+			'date_format' => 'Y-m-d',
+			'validator_message' => 'Podaj poprawną datę początkową - dd/mm/yyyy.',
 			'default' => null
 		]);
 		if($dateTimeFrom && $v->isLastOK())
-			$this->form->dateTimeFrom = $dateTimeFrom->format('d/m/Y H:i');
+			$this->form->dateTimeFrom = $dateTimeFrom->format('Y-m-d');
 
 		$dateTimeTo = $v->validateFromRequest('dateTimeTo', [
-			'date_format' => 'd/m/Y H:i',
-			'validator_message' => 'Podaj poprawną datę i godzinę końcową - dd/mm/yyyy HH:MM.',
+			'date_format' => 'Y-m-d',
+			'validator_message' => 'Podaj poprawną datę końcową - dd/mm/yyyy.',
 			'default' => null
 		]);
 		if($dateTimeTo && $v->isLastOK())
-			$this->form->dateTimeTo = $dateTimeTo->format('d/m/Y H:i');
+			$this->form->dateTimeTo = $dateTimeTo->format('Y-m-d');
 
-		$doctorId = ParamUtils::getFromRequest('doctorId');
-		$this->form->doctorId = $doctorId ? intval($doctorId) : null;
-
+		$this->form->name = ParamUtils::getFromRequest('name');
 		$status = ParamUtils::getFromRequest('appointmentStatus');
-		$this->form->appointmentStatus = $status !== null ? intval($status) : null;
+		$this->form->appointmentStatus = !Utils::isEmptyString($status) ? intval($status) : null;
 	}
 
 	private function validate(): bool {
@@ -70,11 +68,11 @@ class ScheduleCtrl{
 			return false;
 
 		if($this->form->dateTimeFrom && $this->form->dateTimeTo) {
-			$dateTimeFrom = DateTime::createFromFormat('d/m/Y H:i', $this->form->dateTimeFrom);
-			$dateTimeTo = DateTime::createFromFormat('d/m/Y H:i', $this->form->dateTimeTo);
+			$dateTimeFrom = DateTime::createFromFormat('Y-m-d', $this->form->dateTimeFrom);
+			$dateTimeTo = DateTime::createFromFormat('Y-m-d', $this->form->dateTimeTo);
 
-			if($dateTimeFrom >= $dateTimeTo) {
-				Utils::addErrorMessage('Data i godzina początkowa musi być wcześniejsza niż data i godzina końcowa.');
+			if($dateTimeFrom && $dateTimeTo && $dateTimeFrom > $dateTimeTo) {
+				Utils::addErrorMessage('Data początkowa musi być wcześniejsza  lub równa dacie końcowej.');
 				return false;
 			}
 		}
@@ -94,24 +92,28 @@ class ScheduleCtrl{
 		$dateTimeTo = null;
 
 		if($this->form->dateTimeFrom) {
-			$dateTimeFrom = DateTime::createFromFormat('d/m/Y H:i', $this->form->dateTimeFrom);
+			$dateTimeFrom = DateTime::createFromFormat('Y-m-d', $this->form->dateTimeFrom);
+			$dateTimeFrom->setTime(0,0,0);
 			$dateTimeFrom = DatabaseUtils::DB_DateTimeToString($dateTimeFrom);
 		}
 
 		if($this->form->dateTimeTo) {
-			$dateTimeTo = DateTime::createFromFormat('d/m/Y H:i', $this->form->dateTimeTo);
+			$dateTimeTo = DateTime::createFromFormat('Y-m-d', $this->form->dateTimeTo);
+			$dateTimeTo->setTime(23,59,59);
 			$dateTimeTo = DatabaseUtils::DB_DateTimeToString($dateTimeTo);
 		}
 		$hasNextPage = false;
 		$this->appointments = DatabaseUtils::getAppointments(
 			$this->isPatient ? $userId : null,
-			$this->form->doctorId,
+			null,
 			$this->form->appointmentStatus,
 			$dateTimeFrom,
 			$dateTimeTo,
 			$this->viewLimit,
 			($page - 1) * $this->viewLimit,
-			$hasNextPage
+			$hasNextPage,
+			$this->form->name,
+			$this->form->name
 		);
 		$this->pagination->currentPage = $page;
 		$this->pagination->isPreviousPage = $page > 1;
@@ -136,9 +138,16 @@ class ScheduleCtrl{
 	}
 
 	public function action_showSchedulePart(){
-		$page = intval(ParamUtils::getFromRequest('page') ?? '1');
-		$this->loadAppointments($page);
-		$this->generatePartialView();
+		$this->getFormParams();
+		if($this->validate()) {
+			$page = intval(ParamUtils::getFromRequest('page') ?? '1');
+			$this->loadAppointments($page);
+			$this->generatePartialView();
+			exit;
+		}
+		http_response_code(400); // "Bad Request"
+		$this->generateMessagesView();
+		exit;
 	}
 
 	public function action_filterAppointments(){
@@ -197,5 +206,9 @@ class ScheduleCtrl{
 		App::getSmarty()->assign('appointments', $this->appointments);
 		App::getSmarty()->assign('pagination', $this->pagination);
 		App::getSmarty()->display('ScheduleTable.tpl');	
+	}
+
+	private function generateMessagesView(){
+		App::getSmarty()->display('messages.tpl');	
 	}
 }

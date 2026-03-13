@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.5, created on 2026-01-09 01:19:29
+/* Smarty version 5.4.5, created on 2026-03-13 00:09:43
   from 'file:messages.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_69604991eead17_92870372',
+  'unifunc' => 'content_69b347b7c58e20_46480844',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e7217334e40971a8a0016006129079259ed6c8ed' => 
     array (
       0 => 'messages.tpl',
-      1 => 1767917966,
+      1 => 1773356920,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_69604991eead17_92870372 (\Smarty\Template $_smarty_tpl) {
+function content_69b347b7c58e20_46480844 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\AS\\ClinicAppointmentsSystem\\app\\views\\templates';
 if (!$_smarty_tpl->getValue('msgs')->isEmpty()) {?>
 	<?php if ($_smarty_tpl->getValue('msgs')->isError()) {?>

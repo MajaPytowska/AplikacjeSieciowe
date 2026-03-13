@@ -1,3 +1,6 @@
+<script>
+    const localPaginationPreset =['scheduleFilterForm', '{$conf->action_root}showSchedulePart','scheduleTableWrapper'];
+</script>
 
     <table id="scheduleTable" class="alt">
         <thead>
@@ -60,7 +63,7 @@
     </table>
 {if $pagination->isPreviousPage || $pagination->isNextPage}
 <div class="pagination">
-    <button {if !$pagination->isPreviousPage}disabled {/if}class="primary small icon solid fa-chevron-left" onclick="changePage({$pagination->currentPage - 1}, 'scheduleFilterForm', '{$conf->action_root}showSchedulePart','scheduleTableWrapper')"></button>
-    <button id="shv-nextPage" {if !$pagination->isNextPage}disabled {/if} class="primary small icon solid fa-chevron-right" onclick="changePage({$pagination->currentPage + 1}, 'scheduleFilterForm', '{$conf->action_root}showSchedulePart','scheduleTableWrapper')"></button>
+    <button {if !$pagination->isPreviousPage}disabled {/if}class="primary small icon solid fa-chevron-left" onclick="changePage({$pagination->currentPage - 1}, ...localPaginationPreset);"></button>
+    <button id="shv-nextPage" {if !$pagination->isNextPage}disabled {/if} class="primary small icon solid fa-chevron-right" onclick="changePage({$pagination->currentPage + 1}, ...localPaginationPreset)"></button>
 </div>
 {/if}

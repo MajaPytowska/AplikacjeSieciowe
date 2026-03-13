@@ -1,3 +1,4 @@
+<div id="messages">	
 {if $messages->isError()}
 	<div class="message error">
 		<h3 class="icon solid fa-exclamation-triangle" >Błędy</h3>
@@ -19,3 +20,4 @@
 			</ol>
 	</div>
 {/if}
+</div>
